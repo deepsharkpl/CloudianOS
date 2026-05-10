@@ -52,8 +52,8 @@
   },
   "private": true,
   "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=25.0.0",
+    "npm": ">=11.0.0"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
