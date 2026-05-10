@@ -11,7 +11,7 @@ async function startApp() {
     await blockIfInvalidVersions();
     console.log('[ OK ] All system requirements met.');
   } catch (err) {
-    console.error('Failed to start application:', err);
+    console.error('[ FAIL ] Failed to start application:', err);
     process.exit(1);
   }
 }

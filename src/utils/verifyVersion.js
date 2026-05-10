@@ -44,7 +44,7 @@ function fetchCloudianOSVersion() {
           const json = JSON.parse(data);
           resolve(json.version);
         } catch (err) {
-          reject('Failed to parse CloudianOS package.json');
+          reject('[ FAIL ] Failed to parse CloudianOS package.json');
         }
       });
     }).on('error', (err) => reject(err.message));
@@ -62,7 +62,7 @@ async function verifyAllVersions() {
     cloudianVersion = await fetchCloudianOSVersion();
     cloudianOk = compareVersions(cloudianVersion, '0.0.0') >= 0;
   } catch (err) {
-    console.error('CloudianOS error:', err);
+    console.error('[ FAIL ] CloudianOS error:', err);
   }
 
   return {
@@ -100,9 +100,9 @@ function blockIfInvalidVersions() {
     }
 
     if (issues.length > 0) {
-      console.error('\nSystem requirements not met:\n');
+      console.error('\n[ FAIL ] System requirements not met:\n');
       issues.forEach((i) => console.error('- ' + i));
-      console.error('\nApplication will be stopped.\n');
+      console.error('\n[ FAIL ] Application will be stopped.\n');
       process.exit(1);
     }
 
