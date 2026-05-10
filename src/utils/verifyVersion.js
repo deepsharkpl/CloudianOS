@@ -1,14 +1,14 @@
-const https = require('https');
-const config = require('../../config')
+const https = require("https");
+const config = require("../../config");
 
-const REQUIRED_NODE_VERSION = '25.0.0';
-const REQUIRED_NPM_VERSION = '11.0.0';
+const REQUIRED_NODE_VERSION = "25.0.0";
+const REQUIRED_NPM_VERSION = "11.0.0";
 const CLOUDIANOS_PACKAGE_URL =
-  'https://raw.githubusercontent.com/deepsharkpl/CloudianOS/main/package.json';
+  "https://raw.githubusercontent.com/deepsharkpl/CloudianOS/main/package.json";
 
 function compareVersions(v1, v2) {
-  const a = v1.replace(/^v/, '').split('.').map(Number);
-  const b = v2.replace(/^v/, '').split('.').map(Number);
+  const a = v1.replace(/^v/, "").split(".").map(Number);
+  const b = v2.replace(/^v/, "").split(".").map(Number);
 
   for (let i = 0; i < Math.max(a.length, b.length); i++) {
     const num1 = a[i] || 0;
@@ -35,19 +35,21 @@ function checkNpmVersion() {
 
 function fetchCloudianOSVersion() {
   return new Promise((resolve, reject) => {
-    https.get(CLOUDIANOS_PACKAGE_URL, (res) => {
-      let data = '';
+    https
+      .get(CLOUDIANOS_PACKAGE_URL, (res) => {
+        let data = "";
 
-      res.on('data', (chunk) => (data += chunk));
-      res.on('end', () => {
-        try {
-          const json = JSON.parse(data);
-          resolve(json.version);
-        } catch (err) {
-          reject('[ FAIL ] Failed to parse CloudianOS package.json');
-        }
-      });
-    }).on('error', (err) => reject(err.message));
+        res.on("data", (chunk) => (data += chunk));
+        res.on("end", () => {
+          try {
+            const json = JSON.parse(data);
+            resolve(json.version);
+          } catch (err) {
+            reject("[ FAIL ] Failed to parse CloudianOS package.json");
+          }
+        });
+      })
+      .on("error", (err) => reject(err.message));
   });
 }
 
@@ -60,9 +62,9 @@ async function verifyAllVersions() {
 
   try {
     cloudianVersion = await fetchCloudianOSVersion();
-    cloudianOk = compareVersions(cloudianVersion, '0.0.0') >= 0;
+    cloudianOk = compareVersions(cloudianVersion, "0.0.0") >= 0;
   } catch (err) {
-    console.error('[ FAIL ] CloudianOS error:', err);
+    console.error("[ FAIL ] CloudianOS error:", err);
   }
 
   return {
@@ -72,7 +74,7 @@ async function verifyAllVersions() {
       ok: nodeOk,
     },
     npm: {
-      current: 'unknown (from environment)',
+      current: "unknown (from environment)",
       required: REQUIRED_NPM_VERSION,
       ok: npmOk,
     },
@@ -89,20 +91,18 @@ function blockIfInvalidVersions() {
 
     if (!result.node.ok) {
       issues.push(
-        `Node.js version too old: required >= ${REQUIRED_NODE_VERSION}, you have ${result.node.current}`
+        `Node.js version too old: required >= ${REQUIRED_NODE_VERSION}, you have ${result.node.current}`,
       );
     }
 
     if (!result.npm.ok) {
-      issues.push(
-        `npm version too old: required >= ${REQUIRED_NPM_VERSION}`
-      );
+      issues.push(`npm version too old: required >= ${REQUIRED_NPM_VERSION}`);
     }
 
     if (issues.length > 0) {
-      console.error('\n[ FAIL ] System requirements not met:\n');
-      issues.forEach((i) => console.error('- ' + i));
-      console.error('\n[ FAIL ] Application will be stopped.\n');
+      console.error("\n[ FAIL ] System requirements not met:\n");
+      issues.forEach((i) => console.error("- " + i));
+      console.error("\n[ FAIL ] Application will be stopped.\n");
       process.exit(1);
     }
 

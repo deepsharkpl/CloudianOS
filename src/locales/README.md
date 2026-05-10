@@ -9,6 +9,7 @@ Each language is stored separately and follows the same structure to ensure cons
 If you want to add your own language, you can do it freely by following the existing structure.
 
 Please:
+
 - create a new folder or file based on the current pattern
 - use the English version as the reference source
 - translate the English content into your own language
