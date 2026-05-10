@@ -1,0 +1,52 @@
+{
+  "name": "cloudianos",
+  "version": "0.0.1",
+  "description": "Next-generation browser-based operating system built with JavaScript",
+  "homepage": "https://github.com/deepsharkpl/CloudianOS#readme",
+  "bugs": {
+    "url": "https://github.com/deepsharkpl/CloudianOS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepsharkpl/CloudianOS.git"
+  },
+  "keywords": [
+    "cloudian",
+    "webos",
+    "operating-system",
+    "browser-os",
+    "javascript-os",
+    "linux",
+    "debian",
+    "ubuntu",
+    "desktop-environment",
+    "web-desktop",
+    "virtual-os",
+    "filesystem",
+    "electron",
+    "pwa",
+    "wasm",
+    "webassembly",
+    "gaming",
+    "steam",
+    "cloud-gaming",
+    "terminal",
+    "browserfs",
+    "indexeddb",
+    "react",
+    "vite",
+    "frontend",
+    "web-application",
+    "desktop",
+    "os",
+    "cloud-system",
+    "next-generation"
+  ],
+  "license": "ISC",
+  "author": "DeepShark Team",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
