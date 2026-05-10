@@ -295,9 +295,10 @@ function getGPUExtra() {
     'powershell -Command "Get-CimInstance Win32_VideoController | Select-Object -ExpandProperty DriverVersion"',
   );
 
+  
   return {
     vram: mem ? `${Math.round(Number(mem) / 1024 / 1024)} MB` : "unknown",
-    driver: driver || "unknown",
+    driver: driver ? driver.replace(/\r?\n/g, "").trim() : "unknown",
   };
 }
 
