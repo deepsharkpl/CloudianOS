@@ -2,6 +2,7 @@
   "name": "cloudianos",
   "version": "0.0.1",
   "description": "Next-generation browser-based operating system built with JavaScript",
+  "productName": "CloudianOS",
   "homepage": "https://github.com/deepsharkpl/CloudianOS#readme",
   "bugs": {
     "url": "https://github.com/deepsharkpl/CloudianOS/issues"
@@ -42,11 +43,16 @@
     "cloud-system",
     "next-generation"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "author": "DeepShark Team",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }
