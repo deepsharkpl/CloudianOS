@@ -112,6 +112,9 @@ async function boot() {
 
   await sleep(400);
   console.log("\nBooting CloudianOS...\n");
+
+  await sleep(400);
+  require("./server")
 }
 
 boot();
