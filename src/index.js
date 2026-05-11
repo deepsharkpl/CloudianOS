@@ -12,7 +12,10 @@ async function startApp() {
     await blockIfInvalidVersions();
     console.log("[ " + chalk.green("OK") + " ] All system requirements met.");
   } catch (err) {
-    console.error("[ " + chalk.red("FAIL") + " ] Failed to start application:", err);
+    console.error(
+      "[ " + chalk.red("FAIL") + " ] Failed to start application:",
+      err,
+    );
     process.exit(1);
   }
 }
@@ -32,11 +35,24 @@ async function boot() {
   console.log("[ " + chalk.green("OK") + " ] Detecting hardware...");
 
   await sleep(500);
-  console.log(`[ ` + chalk.green("OK") + ` ] OS detected: ` + chalk.yellow(s.os));
-  console.log(`[ ` + chalk.green("OK") + ` ] Platform: ` + chalk.yellow(s.platform));
-  console.log(`[ ` + chalk.green("OK") + ` ] Distribution: ` + chalk.yellow(s.distribution));
-  console.log(`[ ` + chalk.green("OK") + ` ] OS Version: ` + chalk.yellow(s.osVersion));
-  console.log(`[ ` + chalk.green("OK") + ` ] Build: ` + chalk.yellow(s.osBuild));
+  console.log(
+    `[ ` + chalk.green("OK") + ` ] OS detected: ` + chalk.yellow(s.os),
+  );
+  console.log(
+    `[ ` + chalk.green("OK") + ` ] Platform: ` + chalk.yellow(s.platform),
+  );
+  console.log(
+    `[ ` +
+      chalk.green("OK") +
+      ` ] Distribution: ` +
+      chalk.yellow(s.distribution),
+  );
+  console.log(
+    `[ ` + chalk.green("OK") + ` ] OS Version: ` + chalk.yellow(s.osVersion),
+  );
+  console.log(
+    `[ ` + chalk.green("OK") + ` ] Build: ` + chalk.yellow(s.osBuild),
+  );
 
   await sleep(600);
   console.log("[ " + chalk.green("OK") + " ] Loading kernel info...");
@@ -46,7 +62,13 @@ async function boot() {
 
   await sleep(500);
   console.log("[ " + chalk.green("OK") + " ] Scanning CPU...");
-  console.log(`       CPU: ` + chalk.yellow(s.cpu.model) + ` (` + chalk.yellow(s.cpu.cores) + ` cores)`);
+  console.log(
+    `       CPU: ` +
+      chalk.yellow(s.cpu.model) +
+      ` (` +
+      chalk.yellow(s.cpu.cores) +
+      ` cores)`,
+  );
 
   await sleep(500);
   console.log("[ " + chalk.green("OK") + " ] Detecting graphics subsystem...");
@@ -74,7 +96,13 @@ async function boot() {
   await sleep(400);
   console.log("[ " + chalk.green("OK") + " ] Checking power system...");
 
-  console.log(`       Battery: ` + chalk.yellow(s.battery.status) + ` (` + chalk.yellow(s.battery.level) + `)`);
+  console.log(
+    `       Battery: ` +
+      chalk.yellow(s.battery.status) +
+      ` (` +
+      chalk.yellow(s.battery.level) +
+      `)`,
+  );
 
   await sleep(400);
   startApp();
