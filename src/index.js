@@ -2,6 +2,8 @@ const { blockIfInvalidVersions } = require("./utils/verifyVersion");
 const { verifyOS } = require("./utils/verifyOS");
 const config = require("../config");
 const chalk = require("chalk");
+const getRAMInfo = require("./utils/system/getRAMinfo");
+const ram = getRAMInfo();
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -104,6 +106,40 @@ async function boot() {
       `)`,
   );
 
+  await sleep(500);
+
+  console.log("[ " + chalk.green("OK") + " ] Checking memory subsystem...");
+
+  await sleep(200);
+  console.log("       Total Memory: " + chalk.yellow(`${ram.totalGB} GB`));
+
+  await sleep(200);
+  console.log("       Used Memory: " + chalk.yellow(`${ram.usedGB} GB`));
+
+  await sleep(200);
+  console.log("       Free Memory: " + chalk.yellow(`${ram.freeGB} GB`));
+
+  await sleep(200);
+  console.log("       Memory Type: " + chalk.yellow(ram.type));
+
+  await sleep(200);
+  console.log("       Memory Speed: " + chalk.yellow(ram.speedMHz));
+
+  await sleep(200);
+  console.log("       Manufacturer: " + chalk.yellow(ram.manufacturer));
+
+  await sleep(200);
+  if (ram.slots && ram.slots.length > 0) {
+    ram.slots.forEach((slot, index) => {
+      console.log(
+        "       DIMM Slot " +
+          chalk.cyan(`#${index + 1}`) +
+          ": " +
+          chalk.yellow(`${slot.sizeGB} GB ${slot.type}`),
+      );
+    });
+  }
+
   await sleep(400);
   startApp();
 
@@ -114,7 +150,7 @@ async function boot() {
   console.log("\nBooting CloudianOS...\n");
 
   await sleep(400);
-  require("./server")
+  require("./server");
 }
 
 boot();

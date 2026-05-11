@@ -11,7 +11,7 @@ const welcomes = [
   "مرحبا",
   "שלום",
   "नमस्ते",
-  "Olá"
+  "Olá",
 ];
 
 const bootScreen = document.querySelector(".boot-screen");
@@ -32,7 +32,6 @@ setTimeout(() => {
     typeWelcome();
     setInterval(typeWelcome, 3500);
   }, 1200);
-
 }, 6000);
 
 function typeWelcome() {
