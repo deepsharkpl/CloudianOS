@@ -187,7 +187,7 @@ function renderMenu() {
   console.log(
     centerBoxText(
       color(
-        "Press enter to boot the selected OS.  'e' to edit the commands",
+        "Press enter to boot the selected OS. 'e' to edit the commands",
         "gray",
       ),
       width,
