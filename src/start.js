@@ -114,11 +114,11 @@ function shutdown() {
 
 const menuItems = [
   {
-    label: "CloudianOS Standard",
+    label: "CloudianOS (default)",
     action: startBoot,
   },
   {
-    label: "CloudianOS CLI",
+    label: "CloudianOS - CLI",
     action: startCLI,
   },
   {
@@ -187,7 +187,7 @@ function renderMenu() {
   console.log(
     centerBoxText(
       color(
-        "Press enter to boot the selected OS.  `e' to edit the commands",
+        "Press enter to boot the selected OS.  'e' to edit the commands",
         "gray",
       ),
       width,
@@ -195,7 +195,7 @@ function renderMenu() {
   );
   console.log(
     centerBoxText(
-      color("before booting or `c' for a command-line.", "gray"),
+      color("before booting or 'c' for a command-line.", "gray"),
       width,
     ),
   );
