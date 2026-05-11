@@ -132,6 +132,8 @@ const menuItems = [
 ];
 
 let selected = 0;
+let countdown = 30;
+let countdownTimer = null;
 
 function renderMenu() {
   clear();
@@ -203,7 +205,7 @@ function renderMenu() {
   console.log(
     centerBoxText(
       color(
-        "The highlighted entry will be started automatically in 30s.",
+        `The highlighted entry will be started automatically in ${countdown}s.`,
         "cyan",
       ),
       width,
@@ -211,6 +213,21 @@ function renderMenu() {
   );
 
   console.log(line_bottom);
+}
+
+function startCountdown() {
+  countdownTimer = setInterval(async () => {
+    countdown--;
+    renderMenu();
+
+    if (countdown <= 0) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+      process.stdin.setRawMode(false);
+      process.stdin.pause();
+      await menuItems[selected].action();
+    }
+  }, 1000);
 }
 
 function startGRUB() {
@@ -221,9 +238,16 @@ function startGRUB() {
   }
 
   renderMenu();
+  startCountdown();
 
   process.stdin.on("keypress", async (_, key) => {
     if (!key) return;
+
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdown = 30;
+      startCountdown();
+    }
 
     if (key.name === "up") {
       selected--;
@@ -246,6 +270,8 @@ function startGRUB() {
     }
 
     if (key.name === "return") {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
       process.stdin.setRawMode(false);
       process.stdin.pause();
 
@@ -253,6 +279,7 @@ function startGRUB() {
     }
 
     if (key.ctrl && key.name === "c") {
+      clearInterval(countdownTimer);
       process.exit();
     }
   });
