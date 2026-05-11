@@ -3,6 +3,7 @@ const { verifyOS } = require("./utils/verifyOS");
 const config = require("../config");
 const chalk = require("chalk");
 const getRAMInfo = require("./utils/system/getRAMinfo");
+const getDrivers = require("./utils/system/getDrivers");
 const ram = getRAMInfo();
 
 function sleep(ms) {
@@ -138,6 +139,51 @@ async function boot() {
           chalk.yellow(`${slot.sizeGB} GB ${slot.type}`),
       );
     });
+  }
+
+  await sleep(400);
+  console.log("[ " + chalk.green("OK") + " ] Scanning system drivers...");
+
+  let drivers = [];
+
+  try {
+    const result = await getDrivers();
+
+    if (!result || !Array.isArray(result.drivers)) {
+      throw new Error(result?.error || "Invalid driver format");
+    }
+
+    drivers = result.drivers;
+
+    await sleep(300);
+    console.log(
+      "[ " +
+        chalk.green("OK") +
+        " ] Drivers loaded: " +
+        chalk.yellow(drivers.length),
+    );
+
+    await sleep(200);
+    for (const driver of drivers) {
+      await sleep(100);
+
+      const d =
+        typeof driver === "string"
+          ? driver
+          : driver.moduleName ||
+            driver.name ||
+            driver.displayName ||
+            "unknown driver";
+
+      console.log("[ " + chalk.green("DRV") + " ] " + chalk.yellow(d));
+    }
+  } catch (err) {
+    console.log(
+      "[ " +
+        chalk.red("FAIL") +
+        " ] Driver scan failed: " +
+        chalk.yellow(err.message || err),
+    );
   }
 
   await sleep(400);

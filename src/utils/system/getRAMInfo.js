@@ -34,7 +34,7 @@ function getRAMInfo() {
       const freePages = Number(freeMatch?.[1] || 0);
       const inactivePages = Number(inactiveMatch?.[1] || 0);
       const speculativePages = Number(speculativeMatch?.[1] || 0);
-      
+
       free = (freePages + inactivePages + speculativePages) * pageSize;
     } catch {}
   }
