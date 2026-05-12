@@ -149,5 +149,5 @@ function parseCSV(line) {
 }
 
 module.exports = {
-  getDrivers
-}
+  getDrivers,
+};

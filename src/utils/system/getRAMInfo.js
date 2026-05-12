@@ -197,5 +197,5 @@ function getRAMInfo() {
 }
 
 module.exports = {
-  getRAMInfo
-}
+  getRAMInfo,
+};
