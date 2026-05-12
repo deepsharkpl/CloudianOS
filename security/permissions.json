@@ -1,0 +1,94 @@
+{
+  "roles": {
+    "administrator": {
+      "inherits": ["user"],
+      "permissions": {
+        "system.shutdown": true,
+        "system.restart": true,
+        "system.update": true,
+        "system.logs.read": true,
+        "system.logs.clear": true,
+        "system.services.manage": true,
+        "system.settings.modify": true,
+        "system.boot.modify": true,
+
+        "users.create": true,
+        "users.delete": true,
+        "users.modify": true,
+        "users.permissions.change": true,
+        "users.password.reset": true,
+
+        "filesystem.read": true,
+        "filesystem.write": true,
+        "filesystem.delete": true,
+        "filesystem.execute": true,
+        "filesystem.format": true,
+        "filesystem.mount": true,
+
+        "apps.install": true,
+        "apps.uninstall": true,
+        "apps.execute": true,
+        "apps.force_close": true,
+
+        "process.spawn": true,
+        "process.kill": true,
+        "process.inspect": true,
+
+        "network.access": true,
+        "network.modify": true,
+        "network.firewall": true,
+
+        "terminal.access": true,
+        "terminal.root": true,
+
+        "security.scan": true,
+        "security.permissions.modify": true
+      }
+    },
+
+    "user": {
+      "permissions": {
+        "system.shutdown": false,
+        "system.restart": false,
+        "system.update": false,
+        "system.logs.read": false,
+        "system.logs.clear": false,
+        "system.services.manage": false,
+        "system.settings.modify": true,
+        "system.boot.modify": false,
+
+        "users.create": false,
+        "users.delete": false,
+        "users.modify": false,
+        "users.permissions.change": false,
+        "users.password.reset": false,
+
+        "filesystem.read": true,
+        "filesystem.write": true,
+        "filesystem.delete": true,
+        "filesystem.execute": false,
+        "filesystem.format": false,
+        "filesystem.mount": false,
+
+        "apps.install": false,
+        "apps.uninstall": false,
+        "apps.execute": true,
+        "apps.force_close": false,
+
+        "process.spawn": true,
+        "process.kill": false,
+        "process.inspect": false,
+
+        "network.access": true,
+        "network.modify": false,
+        "network.firewall": false,
+
+        "terminal.access": true,
+        "terminal.root": false,
+
+        "security.scan": false,
+        "security.permissions.modify": false
+      }
+    }
+  }
+}
