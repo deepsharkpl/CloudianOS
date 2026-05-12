@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100vh;
+  background-image: url("/img/wallpaper/wallpaper_7.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

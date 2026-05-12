@@ -16,7 +16,7 @@ async function createAccount(data) {
 
   const tx = db.transaction(
     ["users", "settings", "session", "files"],
-    "readwrite"
+    "readwrite",
   );
 
   const usersStore = tx.objectStore("users");

@@ -7,18 +7,17 @@ function getSystemLanguage() {
   try {
     if (platform === "win32") {
       const lang = execSync(
-        "powershell -NoProfile -Command \"Get-Culture | Select-Object -ExpandProperty Name\"",
-        { encoding: "utf8" }
+        'powershell -NoProfile -Command "Get-Culture | Select-Object -ExpandProperty Name"',
+        { encoding: "utf8" },
       ).trim();
 
       if (lang) return normalize(lang);
     }
 
     if (platform === "darwin") {
-      const lang = execSync(
-        "defaults read -g AppleLocale",
-        { encoding: "utf8" }
-      ).trim();
+      const lang = execSync("defaults read -g AppleLocale", {
+        encoding: "utf8",
+      }).trim();
 
       if (lang) return normalize(lang);
     }
@@ -27,8 +26,7 @@ function getSystemLanguage() {
       const output = execSync("locale", { encoding: "utf8" });
 
       const match =
-        output.match(/LANG=(.*)/) ||
-        output.match(/LC_MESSAGES=(.*)/);
+        output.match(/LANG=(.*)/) || output.match(/LC_MESSAGES=(.*)/);
 
       if (match?.[1]) return normalize(match[1]);
     }
@@ -41,10 +39,7 @@ function getSystemLanguage() {
 }
 
 function normalize(lang) {
-  return lang
-    .replace(".UTF-8", "")
-    .replace("_", "-")
-    .trim();
+  return lang.replace(".UTF-8", "").replace("_", "-").trim();
 }
 
 module.exports = { getSystemLanguage };

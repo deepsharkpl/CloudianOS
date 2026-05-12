@@ -35,8 +35,7 @@ function t(key, lang) {
 
 function i18nMiddleware(req, res, next) {
   const lang =
-    req.headers["accept-language"]?.split(",")[0] ||
-    getSystemLanguage();
+    req.headers["accept-language"]?.split(",")[0] || getSystemLanguage();
 
   const translations = loadLocale(lang);
 
@@ -51,5 +50,5 @@ function i18nMiddleware(req, res, next) {
 module.exports = {
   t,
   loadLocale,
-  i18nMiddleware
+  i18nMiddleware,
 };

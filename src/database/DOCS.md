@@ -62,27 +62,27 @@ await createAccount({
 
 # createAccount Parameters
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| username | string | ✅ | Username |
-| password | string | ✅ | User password |
-| deviceName | string | ✅ | Device name |
-| loginMethods | array | ❌ | Login methods |
-| network | object | ❌ | Network configuration |
-| location | string | ❌ | User location |
-| theme | string | ❌ | Theme (`light` / `dark`) |
-| wallpaper | string | ❌ | Desktop wallpaper |
-| desktopLayout | string | ❌ | Desktop layout |
-| timezone | string | ❌ | Timezone |
-| timeFormat | string | ❌ | `12h` or `24h` |
-| language | string | ❌ | System language |
-| keyboardLayout | string | ❌ | Keyboard layout |
-| region | string | ❌ | Region |
-| numberFormat | string | ❌ | Number format |
-| dateFormat | string | ❌ | Date format |
-| autoUpdates | boolean | ❌ | Automatic updates |
-| syncSettings | boolean | ❌ | Settings synchronization |
-| backups | boolean | ❌ | Backup system |
+| Field          | Type    | Required | Description              |
+| -------------- | ------- | -------- | ------------------------ |
+| username       | string  | ✅       | Username                 |
+| password       | string  | ✅       | User password            |
+| deviceName     | string  | ✅       | Device name              |
+| loginMethods   | array   | ❌       | Login methods            |
+| network        | object  | ❌       | Network configuration    |
+| location       | string  | ❌       | User location            |
+| theme          | string  | ❌       | Theme (`light` / `dark`) |
+| wallpaper      | string  | ❌       | Desktop wallpaper        |
+| desktopLayout  | string  | ❌       | Desktop layout           |
+| timezone       | string  | ❌       | Timezone                 |
+| timeFormat     | string  | ❌       | `12h` or `24h`           |
+| language       | string  | ❌       | System language          |
+| keyboardLayout | string  | ❌       | Keyboard layout          |
+| region         | string  | ❌       | Region                   |
+| numberFormat   | string  | ❌       | Number format            |
+| dateFormat     | string  | ❌       | Date format              |
+| autoUpdates    | boolean | ❌       | Automatic updates        |
+| syncSettings   | boolean | ❌       | Settings synchronization |
+| backups        | boolean | ❌       | Backup system            |
 
 ---
 
@@ -114,22 +114,18 @@ const { login } = require("./login");
 ## Usage
 
 ```js
-await login(
-  "john",
-  "123456",
-  "John Laptop"
-);
+await login("john", "123456", "John Laptop");
 ```
 
 ---
 
 # login Parameters
 
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| username | string | ✅ | Username |
-| password | string | ✅ | User password |
-| deviceName | string | ❌ | Device name |
+| Parameter  | Type   | Required | Description   |
+| ---------- | ------ | -------- | ------------- |
+| username   | string | ✅       | Username      |
+| password   | string | ✅       | User password |
+| deviceName | string | ❌       | Device name   |
 
 ---
 
@@ -167,11 +163,7 @@ After a successful login, an active session is created:
 
 ```js
 {
-  id: "current",
-  userId,
-  username,
-  deviceName,
-  loginTime
+  id: ("current", userId, username, deviceName, loginTime);
 }
 ```
 
@@ -179,12 +171,12 @@ After a successful login, an active session is created:
 
 # System Stores
 
-| Store | Description |
-|---|---|
-| users | User accounts |
-| settings | System settings |
-| session | Current session |
-| files | Files and folders |
+| Store    | Description       |
+| -------- | ----------------- |
+| users    | User accounts     |
+| settings | System settings   |
+| session  | Current session   |
+| files    | Files and folders |
 
 ---
 

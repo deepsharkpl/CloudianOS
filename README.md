@@ -18,16 +18,16 @@ The system is being built using vanilla JavaScript and modular architecture, wit
 
 Blueberry aims to include a complete desktop environment with the following components:
 
-* **Desktop environment** with draggable and resizable windows
-* **File manager** with a virtual filesystem stored in the browser
-* **Terminal emulator** supporting basic shell-like commands
-* **Application system** allowing apps to run as independent windows
-* **Virtual filesystem** based on IndexedDB for persistent storage
-* **Browser integration layer** for opening web content as apps
-* **Gaming support layer** for web-based and lightweight games
-* **Modern UI/UX design** inspired by macOS and Linux desktops
-* **Cloud-ready architecture** for future sync and multi-device support
-* **Linux-like workflow experience** for developers and power users
+- **Desktop environment** with draggable and resizable windows
+- **File manager** with a virtual filesystem stored in the browser
+- **Terminal emulator** supporting basic shell-like commands
+- **Application system** allowing apps to run as independent windows
+- **Virtual filesystem** based on IndexedDB for persistent storage
+- **Browser integration layer** for opening web content as apps
+- **Gaming support layer** for web-based and lightweight games
+- **Modern UI/UX design** inspired by macOS and Linux desktops
+- **Cloud-ready architecture** for future sync and multi-device support
+- **Linux-like workflow experience** for developers and power users
 
 The interface is designed to feel like a real operating system, including boot sequences, login screens, system setup flows, and desktop sessions. The goal is to make the user forget they are inside a browser tab.
 
@@ -43,12 +43,12 @@ The long-term vision of Blueberry is to become a fully functional WebOS platform
 
 Future development will focus on:
 
-* Multi-user system support
-* Real-time cloud synchronization
-* Plugin and extension ecosystem
-* Advanced process simulation
-* Improved security model
-* Performance optimization for large-scale usage
+- Multi-user system support
+- Real-time cloud synchronization
+- Plugin and extension ecosystem
+- Advanced process simulation
+- Improved security model
+- Performance optimization for large-scale usage
 
 ### Status
 
@@ -63,4 +63,3 @@ We welcome all contributors, testers, designers, and enthusiasts who are interes
 Join our Discord community to follow development, contribute ideas, report bugs and participate in discussions:
 
 [https://discord.gg/kmEsF6PSkt](https://discord.gg/kmEsF6PSkt)
-
