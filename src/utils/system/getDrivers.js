@@ -148,4 +148,6 @@ function parseCSV(line) {
   return result;
 }
 
-module.exports = getDrivers;
+module.exports = {
+  getDrivers
+}

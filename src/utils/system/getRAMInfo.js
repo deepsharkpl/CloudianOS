@@ -196,4 +196,6 @@ function getRAMInfo() {
   return ram;
 }
 
-module.exports = getRAMInfo;
+module.exports = {
+  getRAMInfo
+}
