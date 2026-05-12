@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.HTTP_PORT || 3000;
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "UI"));
