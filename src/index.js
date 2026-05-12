@@ -2,8 +2,9 @@ const { blockIfInvalidVersions } = require("./utils/verifyVersion");
 const { verifyOS } = require("./utils/verifyOS");
 const config = require("../config");
 const chalk = require("chalk");
-const getRAMInfo = require("./utils/system/getRAMinfo");
+const getRAMInfo = require("./utils/system/getRAMInfo");
 const getDrivers = require("./utils/system/getDrivers");
+const getStorage = require("./utils/system/getStorage");
 const ram = getRAMInfo();
 
 function sleep(ms) {
@@ -185,6 +186,80 @@ async function boot() {
         chalk.yellow(err.message || err),
     );
   }
+
+  await sleep(400);
+  console.log("[ " + chalk.green("OK") + " ] Checking disc storage...");
+  const storage = await getStorage();
+try {
+  const storage = await getStorage();
+
+  if (storage.disks && storage.disks.length > 0) {
+    for (const [index, disk] of storage.disks.entries()) {
+      await sleep(200);
+
+      console.log(
+        "       Disk " +
+          chalk.cyan(`#${index + 1}`) +
+          ": " +
+          chalk.yellow(disk.friendlyName),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Type: " +
+          chalk.yellow(`${disk.mediaType} (${disk.busType})`),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Capacity: " + chalk.yellow(disk.sizeHuman),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Used: " + chalk.yellow(disk.usedHuman),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Free: " + chalk.yellow(disk.freeHuman),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Health: " + chalk.yellow(disk.healthStatus),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Status: " + chalk.yellow(disk.operationalStatus),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Firmware: " + chalk.yellow(disk.firmwareVersion),
+      );
+
+      await sleep(100);
+      console.log(
+        "         Serial: " + chalk.yellow(disk.serialNumber),
+      );
+    }
+  } else {
+    console.log(
+      "[ " +
+        chalk.red("FAIL") +
+        " ] No storage devices detected.",
+    );
+  }
+} catch (err) {
+  console.log(
+    "[ " +
+      chalk.red("FAIL") +
+      " ] Storage scan failed: " +
+      chalk.yellow(err.message || err),
+  );
+}
 
   await sleep(400);
   startApp();
