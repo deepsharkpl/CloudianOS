@@ -4,9 +4,6 @@ const path = require("path");
 
 const { i18nMiddleware } = require("./i18n/i18n");
 
-const { getTime24 } = require("./utils/system/getTime");
-const { getCurrentDate } = require("./utils/system/getCurrentDate");
-
 const app = express();
 const PORT = process.env.HTTP_PORT || 3000;
 
@@ -30,12 +27,8 @@ app.get("/test", (req, res) => {
   res.render("desktop");
 });
 
-app.get("/api/system/time", (req, res) => {
-  res.json({
-    time: getTime24(),
-    date: getCurrentDate(),
-  });
-});
+app.use("/api/configuration", require("./routes/api.configuration"));
+app.use("/api/system", require("./routes/api.system"));
 
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);

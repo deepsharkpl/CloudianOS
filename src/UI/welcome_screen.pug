@@ -3,20 +3,16 @@ html(lang="pl")
   head
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
-
+    
     title Blueberry - WebOS
-
+    
     link(rel="stylesheet" href="/styles/welcome_screen.css")
 
   body
+
     .splash-screen
-
       .blueberry-logo
-        img(
-          src="/img/logo.png"
-          alt="Blueberry"
-        )
-
+        img(src="/img/logo.png" alt="Blueberry")
       .loader
         .progress-bar
           .progress
@@ -25,8 +21,124 @@ html(lang="pl")
 
       .glass
 
-        h1.welcome-text
-          span#welcome-text
-          span.cursor |
+        nav.sidebar
+          .sidebar-logo
+            img(src="/img/logo.png" alt="Blueberry")
+          ul.steps
+            li.step.active(data-step="1")
+              span.step-number 01
+              span.step-label Witamy
+            li.step(data-step="2")
+              span.step-number 02
+              span.step-label Język
+            li.step(data-step="3")
+              span.step-number 03
+              span.step-label Klawiatura
+            li.step(data-step="4")
+              span.step-number 04
+              span.step-label Sieć
+            li.step(data-step="5")
+              span.step-number 05
+              span.step-label Gotowe
+
+        .main-content
+
+          .step-panel.active(data-panel="1")
+            .welcome-center
+              h1.welcome-text
+                span#welcome-text
+                span.cursor |
+              p.step-subtitle Witamy w instalatorze Blueberry
+              .step-actions.centered
+                button.btn-primary(id="btn-welcome-next") Kontynuuj
+
+          .step-panel(data-panel="2")
+            .step-header
+              h2.step-title Wybierz język
+              p.step-desc Możesz to zmienić później w ustawieniach.
+            .form-group
+              label.form-label Język systemu
+              select.form-select#select-language
+            .form-group
+              label.form-label Region
+              input.form-input(type="text" id="input-region" placeholder="np. PL")
+            .step-actions
+              button.btn-secondary(data-go="1") Wstecz
+              button.btn-primary(id="btn-language-next") Kontynuuj
+
+          .step-panel(data-panel="3")
+            .step-header
+              h2.step-title Układ klawiatury
+              p.step-desc Wybierz układ klawiatury i strefę czasową.
+            .form-group
+              label.form-label Układ klawiatury
+              select.form-select#select-keyboard
+            .form-group
+              label.form-label Strefa czasowa
+              select.form-select#select-timezone
+            .form-group
+              label.form-label Format czasu
+              .radio-group
+                label.radio-option
+                  input(type="radio" name="timeFormat" value="24h" checked)
+                  span 24-godzinny
+                label.radio-option
+                  input(type="radio" name="timeFormat" value="12h")
+                  span 12-godzinny (AM/PM)
+            .step-actions
+              button.btn-secondary(data-go="2") Wstecz
+              button.btn-primary(id="btn-keyboard-next") Kontynuuj
+
+          .step-panel(data-panel="4")
+            .step-header
+              h2.step-title Sieć
+              p.step-desc Połącz się z siecią lub pomiń ten krok.
+            .form-group
+              label.form-label Typ połączenia
+              .radio-group
+                label.radio-option
+                  input(type="radio" name="networkType" value="wifi" checked)
+                  span Wi-Fi
+                label.radio-option
+                  input(type="radio" name="networkType" value="ethernet")
+                  span Ethernet
+                label.radio-option
+                  input(type="radio" name="networkType" value="none")
+                  span Pomiń
+            .wifi-fields
+              .form-group
+                label.form-label Nazwa sieci (SSID)
+                input.form-input(type="text" id="input-ssid" placeholder="Nazwa Wi-Fi")
+              .form-group
+                label.form-label Hasło
+                input.form-input(type="password" id="input-wifi-password" placeholder="Hasło Wi-Fi")
+              .form-group
+                label.radio-option
+                  input(type="checkbox" id="check-autoconnect")
+                  span Łącz automatycznie
+            .step-actions
+              button.btn-secondary(data-go="3") Wstecz
+              button.btn-primary(id="btn-network-next") Kontynuuj
+
+          .step-panel(data-panel="5")
+            .step-header
+              h2.step-title Utwórz konto
+              p.step-desc To ostatni krok. Twoje konto będzie używane do logowania.
+            .form-group
+              label.form-label Nazwa urządzenia
+              input.form-input(type="text" id="input-device" placeholder="np. Mój laptop")
+            .form-group
+              label.form-label Nazwa użytkownika
+              input.form-input(type="text" id="input-username" placeholder="np. jan")
+            .form-group
+              label.form-label Hasło
+              input.form-input(type="password" id="input-password" placeholder="Hasło")
+            .form-group
+              label.form-label Potwierdź hasło
+              input.form-input(type="password" id="input-password-confirm" placeholder="Powtórz hasło")
+            p.error-msg(id="finish-error")
+            .step-actions
+              button.btn-secondary(data-go="4") Wstecz
+              button.btn-primary(id="btn-finish") Zakończ instalację
 
     script(src="/js/welcome_screen.js")
