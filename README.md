@@ -1,4 +1,10 @@
-# Blueberry
+<h3 align="center"><img width="80" alt="Blueberry" src="https://raw.githubusercontent.com/deepsharkpl/Blueberry/refs/heads/main/src/styles/img/logo.png"></h3>
+
+<h3 align="center">The Web-Native Operating System</h3>
+
+<p align="center">
+    <a href="https://discord.com/invite/kmEsF6PSkt">Discord</a>
+</p>
 
 ### English | more lang ​​coming soon
 
