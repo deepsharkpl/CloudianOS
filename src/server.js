@@ -5,8 +5,10 @@ const app = express();
 const PORT = 3000;
 
 app.set("view engine", "pug");
-
 app.set("views", path.join(__dirname, "UI"));
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use("/styles", express.static(path.join(__dirname, "styles", "css")));
 app.use("/img", express.static(path.join(__dirname, "styles", "img")));
