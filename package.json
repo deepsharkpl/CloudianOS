@@ -1,18 +1,18 @@
 {
-  "name": "cloudianos",
+  "name": "blueberry",
   "version": "0.0.1",
   "description": "Next-generation browser-based operating system built with JavaScript",
-  "productName": "CloudianOS",
-  "homepage": "https://github.com/deepsharkpl/CloudianOS#readme",
+  "productName": "Blueberry",
+  "homepage": "https://github.com/deepsharkpl/Blueberry#readme",
   "bugs": {
-    "url": "https://github.com/deepsharkpl/CloudianOS/issues"
+    "url": "https://github.com/deepsharkpl/Blueberry/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/deepsharkpl/CloudianOS.git"
+    "url": "git+https://github.com/deepsharkpl/Blueberry.git"
   },
   "keywords": [
-    "cloudian",
+    "blueberry",
     "webos",
     "operating-system",
     "browser-os",

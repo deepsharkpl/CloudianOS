@@ -28,7 +28,7 @@ async function boot() {
 
   console.clear();
 
-  console.log(`CloudianOS BIOS v${config.version}`);
+  console.log(`Blueberry BIOS v${config.version}`);
   console.log(`Copyright (C) DeepShark ${new Date().getFullYear()}\n`);
 
   await sleep(600);
@@ -193,7 +193,7 @@ async function boot() {
   console.log("[ " + chalk.green("OK") + " ] System check complete.");
 
   await sleep(400);
-  console.log("\nBooting CloudianOS...\n");
+  console.log("\nBooting Blueberry...\n");
 
   await sleep(400);
   require("./server");

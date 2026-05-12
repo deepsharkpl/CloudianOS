@@ -1,8 +1,8 @@
-# Cloudian
+# Blueberry
 
 ### English | more lang ​​coming soon
 
-CloudianOS is a next-generation browser-based operating system inspired by Linux distributions like Debian and Ubuntu.
+Blueberry is a next-generation browser-based operating system inspired by Linux distributions like Debian and Ubuntu.
 
 The project aims to deliver a fully functional WebOS experience directly in the browser using JavaScript, featuring:
 
@@ -17,7 +17,7 @@ The project aims to deliver a fully functional WebOS experience directly in the 
 - Cloud features
 - Linux-like experience
 
-CloudianOS is currently under active development.
+Blueberry is currently under active development.
 
 We are building a modern, fast and highly customizable operating system running entirely on web technologies.
 

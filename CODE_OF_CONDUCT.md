@@ -1,4 +1,4 @@
-# CloudianOS Code of Conduct
+# Blueberry Code of Conduct
 
 ## Our Pledge
 

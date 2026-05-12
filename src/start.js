@@ -15,7 +15,7 @@ async function startBoot() {
 
 async function startCLI() {
   clear();
-  console.log(color("Starting CloudianOS CLI...", "yellow"));
+  console.log(color("Starting Blueberry CLI...", "yellow"));
 }
 
 async function memoryTest() {
@@ -34,11 +34,11 @@ function shutdown() {
 
 const menuItems = [
   {
-    label: "CloudianOS (default)",
+    label: "Blueberry (default)",
     action: startBoot,
   },
   {
-    label: "CloudianOS - CLI",
+    label: "Blueberry - CLI",
     action: startCLI,
   },
   {
@@ -74,7 +74,7 @@ function renderMenu() {
   console.log(line);
 
   console.log(
-    centerBoxText(color(" CloudianOS Unified Boot Manager", "gray"), width),
+    centerBoxText(color(" Blueberry Unified Boot Manager", "gray"), width),
   );
   console.log(
     centerBoxText(

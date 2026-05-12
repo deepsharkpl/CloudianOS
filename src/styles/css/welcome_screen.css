@@ -28,9 +28,9 @@ body {
   pointer-events: none;
 }
 
-.cloudian-logo img {
+.blueberry-logo img {
   width: 180px;
-  animation: cloudianFloat 3s ease infinite;
+  animation: blueberryFloat 3s ease infinite;
 }
 
 .loader {
@@ -134,7 +134,7 @@ body {
   }
 }
 
-@keyframes cloudianFloat {
+@keyframes blueberryFloat {
   0%,
   100% {
     transform: translateY(0px);
@@ -152,7 +152,7 @@ body {
     border-radius: 24px;
   }
 
-  .cloudian-logo img {
+  .blueberry-logo img {
     width: 70px;
   }
 
