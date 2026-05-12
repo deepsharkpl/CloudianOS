@@ -3,8 +3,8 @@ const config = require("../../config");
 
 const REQUIRED_NODE_VERSION = "25.0.0";
 const REQUIRED_NPM_VERSION = "11.0.0";
-const CLOUDIANOS_PACKAGE_URL =
-  "https://raw.githubusercontent.com/deepsharkpl/CloudianOS/main/package.json";
+const BLUEBERRY_PACKAGE_URL =
+  "https://raw.githubusercontent.com/deepsharkpl/Blueberry/main/package.json";
 
 function compareVersions(v1, v2) {
   const a = v1.replace(/^v/, "").split(".").map(Number);
@@ -33,10 +33,10 @@ function checkNpmVersion() {
   return compareVersions(npmVersion, REQUIRED_NPM_VERSION) >= 0;
 }
 
-function fetchCloudianOSVersion() {
+function fetchBlueberryVersion() {
   return new Promise((resolve, reject) => {
     https
-      .get(CLOUDIANOS_PACKAGE_URL, (res) => {
+      .get(BLUEBERRY_PACKAGE_URL, (res) => {
         let data = "";
 
         res.on("data", (chunk) => (data += chunk));
@@ -45,7 +45,7 @@ function fetchCloudianOSVersion() {
             const json = JSON.parse(data);
             resolve(json.version);
           } catch (err) {
-            reject("[ FAIL ] Failed to parse CloudianOS package.json");
+            reject("[ FAIL ] Failed to parse Blueberry package.json");
           }
         });
       })
@@ -57,14 +57,14 @@ async function verifyAllVersions() {
   const nodeOk = checkNodeVersion();
   const npmOk = checkNpmVersion();
 
-  let cloudianVersion = null;
-  let cloudianOk = false;
+  let blueberryVersion = null;
+  let blueberryOk = false;
 
   try {
-    cloudianVersion = await fetchCloudianOSVersion();
-    cloudianOk = compareVersions(cloudianVersion, "0.0.0") >= 0;
+    blueberryVersion = await fetchBlueberryVersion();
+    blueberryOk = compareVersions(blueberryVersion, "0.0.0") >= 0;
   } catch (err) {
-    console.error("[ FAIL ] CloudianOS error:", err);
+    console.error("[ FAIL ] Blueberry error:", err);
   }
 
   return {
@@ -78,9 +78,9 @@ async function verifyAllVersions() {
       required: REQUIRED_NPM_VERSION,
       ok: npmOk,
     },
-    cloudianOS: {
-      current: cloudianVersion,
-      ok: cloudianOk,
+    blueberry: {
+      current: blueberryVersion,
+      ok: blueberryOk,
     },
   };
 }
@@ -113,7 +113,7 @@ function blockIfInvalidVersions() {
 module.exports = {
   checkNodeVersion,
   checkNpmVersion,
-  fetchCloudianOSVersion,
+  fetchBlueberryVersion,
   verifyAllVersions,
   blockIfInvalidVersions,
 };
