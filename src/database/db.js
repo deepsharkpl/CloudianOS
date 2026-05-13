@@ -1,73 +1,52 @@
-const DB_NAME = "Blueberry";
-const DB_VERSION = 1;
+const Database = require('better-sqlite3');
+const path = require('path');
 
+const DB_PATH = path.join(__dirname, 'Blueberry.db');
 let dbInstance = null;
-let dbPromise = null;
 
 function openSystemDB() {
   if (dbInstance) {
-    return Promise.resolve(dbInstance);
+    return dbInstance;
   }
 
-  if (dbPromise) {
-    return dbPromise;
-  }
+  const db = new Database(DB_PATH);
+  db.pragma('journal_mode = WAL');
+  db.pragma('foreign_keys = ON');
 
-  dbPromise = new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      loginMethods TEXT NOT NULL DEFAULT '["password"]',
+      deviceName TEXT,
+      createdAt TEXT NOT NULL
+    );
 
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    );
 
-      if (!db.objectStoreNames.contains("users")) {
-        const users = db.createObjectStore("users", {
-          keyPath: "id",
-          autoIncrement: true,
-        });
-        users.createIndex("username", "username", { unique: true });
-      }
+    CREATE TABLE IF NOT EXISTS session (
+      id TEXT PRIMARY KEY,
+      userId INTEGER,
+      username TEXT,
+      deviceName TEXT,
+      loginTime TEXT NOT NULL
+    );
 
-      if (!db.objectStoreNames.contains("settings")) {
-        db.createObjectStore("settings", {
-          keyPath: "key",
-        });
-      }
+    CREATE TABLE IF NOT EXISTS files (
+      path TEXT PRIMARY KEY,
+      owner INTEGER,
+      createdAt TEXT NOT NULL
+    );
 
-      if (!db.objectStoreNames.contains("session")) {
-        db.createObjectStore("session", {
-          keyPath: "id",
-        });
-      }
+    CREATE INDEX IF NOT EXISTS idx_files_owner ON files (owner);
+  `);
 
-      if (!db.objectStoreNames.contains("files")) {
-        const files = db.createObjectStore("files", {
-          keyPath: "path",
-        });
-        files.createIndex("owner", "owner", { unique: false });
-      }
-    };
-
-    request.onsuccess = () => {
-      dbInstance = request.result;
-      dbInstance.onversionchange = () => {
-        dbInstance.close();
-        dbInstance = null;
-        console.warn("Database updated in another tab. Please reload.");
-      };
-
-      resolve(dbInstance);
-    };
-
-    request.onblocked = () => {
-      console.warn("Database upgrade blocked by another open tab.");
-    };
-
-    request.onerror = () => {
-      reject(request.error);
-    };
-  });
-
-  return dbPromise;
+  dbInstance = db;
+  return dbInstance;
 }
 
 module.exports = {

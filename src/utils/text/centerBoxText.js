@@ -1,4 +1,4 @@
-const stripAnsi = require("strip-ansi").default;
+const stripAnsi = require('strip-ansi').default;
 
 function centerBoxText(text, width) {
   const visibleLength = stripAnsi(text).length;
@@ -12,11 +12,11 @@ function centerBoxText(text, width) {
   const rightPadding = totalPadding - leftPadding;
 
   return (
-    "║" +
-    " ".repeat(Math.max(0, leftPadding)) +
+    '║' +
+    ' '.repeat(Math.max(0, leftPadding)) +
     text +
-    " ".repeat(Math.max(0, rightPadding)) +
-    "║"
+    ' '.repeat(Math.max(0, rightPadding)) +
+    '║'
   );
 }
 

@@ -14,7 +14,7 @@ Creates a new user account and saves system configuration.
 ## Import
 
 ```js
-const { createAccount } = require("./createAccount");
+const { createAccount } = require('./createAccount');
 ```
 
 ---
@@ -23,34 +23,34 @@ const { createAccount } = require("./createAccount");
 
 ```js
 await createAccount({
-  username: "john",
-  password: "123456",
-  deviceName: "John Laptop",
+  username: 'john',
+  password: '123456',
+  deviceName: 'John Laptop',
 
-  loginMethods: ["password"],
+  loginMethods: ['password'],
 
   network: {
-    type: "wifi",
-    ssid: "Home WiFi",
-    password: "wifi-password",
+    type: 'wifi',
+    ssid: 'Home WiFi',
+    password: 'wifi-password',
     autoConnect: true,
   },
 
-  location: "Poland",
+  location: 'Poland',
 
-  theme: "dark",
-  wallpaper: "wallpaper.jpg",
-  desktopLayout: "default",
+  theme: 'dark',
+  wallpaper: 'wallpaper.jpg',
+  desktopLayout: 'default',
 
-  timezone: "Europe/Warsaw",
-  timeFormat: "24h",
+  timezone: 'Europe/Warsaw',
+  timeFormat: '24h',
 
-  language: "en",
-  keyboardLayout: "us",
+  language: 'en',
+  keyboardLayout: 'us',
 
-  region: "US",
-  numberFormat: "1,234.56",
-  dateFormat: "YYYY-MM-DD",
+  region: 'US',
+  numberFormat: '1,234.56',
+  dateFormat: 'YYYY-MM-DD',
 
   autoUpdates: true,
   syncSettings: true,
@@ -106,7 +106,7 @@ Logs a user into the system.
 ## Import
 
 ```js
-const { login } = require("./login");
+const { login } = require('./login');
 ```
 
 ---
@@ -114,7 +114,7 @@ const { login } = require("./login");
 ## Usage
 
 ```js
-await login("john", "123456", "John Laptop");
+await login('john', '123456', 'John Laptop');
 ```
 
 ---
@@ -163,7 +163,7 @@ After a successful login, an active session is created:
 
 ```js
 {
-  id: ("current", userId, username, deviceName, loginTime);
+  id: ('current', userId, username, deviceName, loginTime);
 }
 ```
 

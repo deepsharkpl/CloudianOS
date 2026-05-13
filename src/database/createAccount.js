@@ -1,110 +1,80 @@
-const { openSystemDB } = require("./db");
+const { openSystemDB } = require('./db');
+const crypto = require('crypto');
 
-async function hashPassword(password) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-
-  return Array.from(new Uint8Array(hashBuffer))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
+function hashPassword(password) {
+  return crypto.createHash('sha256').update(password).digest('hex');
 }
 
-async function createAccount(data) {
-  const db = await openSystemDB();
-  const hashedPassword = await hashPassword(data.password);
+function createAccount(data) {
+  const db = openSystemDB();
+  const hashedPassword = hashPassword(data.password);
+  const now = new Date().toISOString();
 
-  const tx = db.transaction(
-    ["users", "settings", "session", "files"],
-    "readwrite",
-  );
+  const createAccountTx = db.transaction(() => {
+    const userResult = db
+      .prepare(
+        `INSERT INTO users (username, password, loginMethods, deviceName, createdAt)
+         VALUES (?, ?, ?, ?, ?)`,
+      )
+      .run(
+        data.username,
+        hashedPassword,
+        JSON.stringify(data.loginMethods || ['password']),
+        data.deviceName,
+        now,
+      );
 
-  const usersStore = tx.objectStore("users");
-  const settingsStore = tx.objectStore("settings");
-  const sessionStore = tx.objectStore("session");
-  const filesStore = tx.objectStore("files");
+    const userId = userResult.lastInsertRowid;
+    const homePath = `/home/${data.username}`;
 
-  return new Promise((resolve, reject) => {
-    const user = {
-      username: data.username,
-      password: hashedPassword,
-      loginMethods: data.loginMethods || ["password"],
-      deviceName: data.deviceName,
-      createdAt: new Date().toISOString(),
+    db.prepare(
+      `INSERT INTO files (path, owner, createdAt) VALUES (?, ?, ?)`,
+    ).run(homePath, userId, now);
+
+    const settingsValue = {
+      homeFolder: homePath,
+      network: {
+        type: data.network?.type || 'wifi',
+        ssid: data.network?.ssid || null,
+        password: data.network?.password || null,
+        autoConnect: data.network?.autoConnect || false,
+      },
+      location: data.location || null,
+      appearance: {
+        theme: data.theme || 'light',
+        wallpaper: data.wallpaper || null,
+        desktopLayout: data.desktopLayout || 'default',
+      },
+      time: {
+        timezone: data.timezone || 'UTC',
+        format: data.timeFormat || '24h',
+      },
+      language: data.language || 'en',
+      keyboardLayout: data.keyboardLayout || 'us',
+      region: {
+        region: data.region || 'US',
+        numberFormat: data.numberFormat || '1,234.56',
+        dateFormat: data.dateFormat || 'YYYY-MM-DD',
+      },
+      system: {
+        autoUpdates: data.autoUpdates ?? true,
+        syncSettings: data.syncSettings ?? true,
+        backups: data.backups ?? false,
+      },
     };
 
-    const userRequest = usersStore.add(user);
+    db.prepare(
+      `INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)`,
+    ).run(`user:${userId}`, JSON.stringify(settingsValue));
 
-    userRequest.onsuccess = () => {
-      const userId = userRequest.result;
-      const homeFolder = {
-        path: `/home/${data.username}`,
-        owner: userId,
-        createdAt: new Date().toISOString(),
-      };
-
-      filesStore.add(homeFolder);
-
-      settingsStore.put({
-        key: `user:${userId}`,
-        value: {
-          homeFolder: homeFolder.path,
-
-          network: {
-            type: data.network?.type || "wifi",
-            ssid: data.network?.ssid || null,
-            password: data.network?.password || null,
-            autoConnect: data.network?.autoConnect || false,
-          },
-
-          location: data.location || null,
-
-          appearance: {
-            theme: data.theme || "light",
-            wallpaper: data.wallpaper || null,
-            desktopLayout: data.desktopLayout || "default",
-          },
-
-          time: {
-            timezone: data.timezone || "UTC",
-            format: data.timeFormat || "24h",
-          },
-
-          language: data.language || "en",
-          keyboardLayout: data.keyboardLayout || "us",
-
-          region: {
-            region: data.region || "US",
-            numberFormat: data.numberFormat || "1,234.56",
-            dateFormat: data.dateFormat || "YYYY-MM-DD",
-          },
-
-          system: {
-            autoUpdates: data.autoUpdates ?? true,
-            syncSettings: data.syncSettings ?? true,
-            backups: data.backups ?? false,
-          },
-        },
-      });
-
-      sessionStore.put({
-        id: "current",
-        userId,
-        deviceName: data.deviceName,
-        loginTime: new Date().toISOString(),
-      });
-    };
-
-    tx.oncomplete = () => {
-      resolve({
-        success: true,
-      });
-    };
-
-    tx.onerror = () => {
-      reject(tx.error);
-    };
+    db.prepare(
+      `INSERT OR REPLACE INTO session (id, userId, username, deviceName, loginTime)
+       VALUES (?, ?, ?, ?, ?)`,
+    ).run('current', userId, data.username, data.deviceName, now);
   });
+
+  createAccountTx();
+  return { success: true };
 }
 
 module.exports = {

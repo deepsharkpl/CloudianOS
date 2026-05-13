@@ -1,52 +1,52 @@
-const readline = require("readline");
-const chalk = require("chalk");
-const config = require("../config");
+const readline = require('readline');
+const chalk = require('chalk');
+const config = require('../config');
 
-const clear = require("./utils/system/clear");
-const color = require("./utils/text/color");
-const centerText = require("./utils/text/centerText");
-const centerBoxText = require("./utils/text/centerBoxText");
-const boxText = require("./utils/text/boxText");
+const clear = require('./utils/system/clear');
+const color = require('./utils/text/color');
+const centerText = require('./utils/text/centerText');
+const centerBoxText = require('./utils/text/centerBoxText');
+const boxText = require('./utils/text/boxText');
 
 async function startBoot() {
   clear();
-  require("./index");
+  require('./index');
 }
 
 async function startCLI() {
   clear();
-  console.log(color("Starting Blueberry CLI...", "yellow"));
+  console.log(color('Starting Blueberry CLI...', 'yellow'));
 }
 
 async function memoryTest() {
   clear();
-  console.log(color("Running Memory Test...", "yellow"));
+  console.log(color('Running Memory Test...', 'yellow'));
 }
 
 function shutdown() {
   clear();
   console.log(
-    "[ " + chalk.green("OK") + " ] " + color("System halted.", "white"),
+    '[ ' + chalk.green('OK') + ' ] ' + color('System halted.', 'white'),
   );
-  console.log("");
+  console.log('');
   process.exit(0);
 }
 
 const menuItems = [
   {
-    label: "Blueberry (default)",
+    label: 'Blueberry (default)',
     action: startBoot,
   },
   {
-    label: "Blueberry - CLI",
+    label: 'Blueberry - CLI',
     action: startCLI,
   },
   {
-    label: "MemoryTest",
+    label: 'MemoryTest',
     action: memoryTest,
   },
   {
-    label: "Shutdown",
+    label: 'Shutdown',
     action: shutdown,
   },
 ];
@@ -59,26 +59,26 @@ function renderMenu() {
   clear();
 
   const line =
-    "╔═════════════════════════════════════════════════════════════════╗";
+    '╔═════════════════════════════════════════════════════════════════╗';
 
   const separator =
-    "║─────────────────────────────────────────────────────────────────║";
+    '║─────────────────────────────────────────────────────────────────║';
 
   const line_bottom =
-    "╚═════════════════════════════════════════════════════════════════╝";
+    '╚═════════════════════════════════════════════════════════════════╝';
 
   const width = line.length;
 
-  console.log(color(centerText("GNU GRUB  version 2.14", width), "white"));
+  console.log(color(centerText('GNU GRUB  version 2.14', width), 'white'));
 
   console.log(line);
 
   console.log(
-    centerBoxText(color(" Blueberry Unified Boot Manager", "gray"), width),
+    centerBoxText(color(' Blueberry Unified Boot Manager', 'gray'), width),
   );
   console.log(
     centerBoxText(
-      color(" Software version: ", "gray") + color(config.version, "green"),
+      color(' Software version: ', 'gray') + color(config.version, 'green'),
       width,
     ),
   );
@@ -88,11 +88,11 @@ function renderMenu() {
   menuItems.forEach((item, index) => {
     const isSelected = index === selected;
 
-    const bullet = isSelected ? color("•", "yellow") : color("•", "gray");
+    const bullet = isSelected ? color('•', 'yellow') : color('•', 'gray');
 
     const text = isSelected
-      ? color(item.label, "yellow")
-      : color(item.label, "gray");
+      ? color(item.label, 'yellow')
+      : color(item.label, 'gray');
 
     console.log(boxText(` ${bullet} ${text}`, 87));
   });
@@ -102,8 +102,8 @@ function renderMenu() {
   console.log(
     centerBoxText(
       color(
-        "Use the ↑ and ↓ keys to select which entry is highlighted.",
-        "gray",
+        'Use the ↑ and ↓ keys to select which entry is highlighted.',
+        'gray',
       ),
       width,
     ),
@@ -112,23 +112,23 @@ function renderMenu() {
     centerBoxText(
       color(
         "Press enter to boot the selected OS. 'e' to edit the commands",
-        "gray",
+        'gray',
       ),
       width,
     ),
   );
   console.log(
     centerBoxText(
-      color("before booting or 'c' for a command-line.", "gray"),
+      color("before booting or 'c' for a command-line.", 'gray'),
       width,
     ),
   );
-  console.log(centerBoxText("", width));
+  console.log(centerBoxText('', width));
   console.log(
     centerBoxText(
       color(
         `The highlighted entry will be started automatically in ${countdown}s.`,
-        "cyan",
+        'cyan',
       ),
       width,
     ),
@@ -162,7 +162,7 @@ function startGRUB() {
   renderMenu();
   startCountdown();
 
-  process.stdin.on("keypress", async (_, key) => {
+  process.stdin.on('keypress', async (_, key) => {
     if (!key) return;
 
     if (countdownTimer) {
@@ -171,7 +171,7 @@ function startGRUB() {
       startCountdown();
     }
 
-    if (key.name === "up") {
+    if (key.name === 'up') {
       selected--;
 
       if (selected < 0) {
@@ -181,7 +181,7 @@ function startGRUB() {
       renderMenu();
     }
 
-    if (key.name === "down") {
+    if (key.name === 'down') {
       selected++;
 
       if (selected >= menuItems.length) {
@@ -191,7 +191,7 @@ function startGRUB() {
       renderMenu();
     }
 
-    if (key.name === "return") {
+    if (key.name === 'return') {
       clearInterval(countdownTimer);
       countdownTimer = null;
       process.stdin.setRawMode(false);
@@ -200,7 +200,7 @@ function startGRUB() {
       await menuItems[selected].action();
     }
 
-    if (key.ctrl && key.name === "c") {
+    if (key.ctrl && key.name === 'c') {
       clearInterval(countdownTimer);
       process.exit();
     }

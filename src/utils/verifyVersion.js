@@ -1,14 +1,14 @@
-const https = require("https");
-const config = require("../../config");
+const https = require('https');
+const config = require('../../config');
 
-const REQUIRED_NODE_VERSION = "25.0.0";
-const REQUIRED_NPM_VERSION = "11.0.0";
+const REQUIRED_NODE_VERSION = '25.0.0';
+const REQUIRED_NPM_VERSION = '11.0.0';
 const BLUEBERRY_PACKAGE_URL =
-  "https://raw.githubusercontent.com/deepsharkpl/Blueberry/main/package.json";
+  'https://raw.githubusercontent.com/deepsharkpl/Blueberry/main/package.json';
 
 function compareVersions(v1, v2) {
-  const a = v1.replace(/^v/, "").split(".").map(Number);
-  const b = v2.replace(/^v/, "").split(".").map(Number);
+  const a = v1.replace(/^v/, '').split('.').map(Number);
+  const b = v2.replace(/^v/, '').split('.').map(Number);
 
   for (let i = 0; i < Math.max(a.length, b.length); i++) {
     const num1 = a[i] || 0;
@@ -37,19 +37,19 @@ function fetchBlueberryVersion() {
   return new Promise((resolve, reject) => {
     https
       .get(BLUEBERRY_PACKAGE_URL, (res) => {
-        let data = "";
+        let data = '';
 
-        res.on("data", (chunk) => (data += chunk));
-        res.on("end", () => {
+        res.on('data', (chunk) => (data += chunk));
+        res.on('end', () => {
           try {
             const json = JSON.parse(data);
             resolve(json.version);
           } catch (err) {
-            reject("[ FAIL ] Failed to parse Blueberry package.json");
+            reject('[ FAIL ] Failed to parse Blueberry package.json');
           }
         });
       })
-      .on("error", (err) => reject(err.message));
+      .on('error', (err) => reject(err.message));
   });
 }
 
@@ -62,9 +62,9 @@ async function verifyAllVersions() {
 
   try {
     blueberryVersion = await fetchBlueberryVersion();
-    blueberryOk = compareVersions(blueberryVersion, "0.0.0") >= 0;
+    blueberryOk = compareVersions(blueberryVersion, '0.0.0') >= 0;
   } catch (err) {
-    console.error("[ FAIL ] Blueberry error:", err);
+    console.error('[ FAIL ] Blueberry error:', err);
   }
 
   return {
@@ -74,7 +74,7 @@ async function verifyAllVersions() {
       ok: nodeOk,
     },
     npm: {
-      current: "unknown (from environment)",
+      current: 'unknown (from environment)',
       required: REQUIRED_NPM_VERSION,
       ok: npmOk,
     },
@@ -100,9 +100,9 @@ function blockIfInvalidVersions() {
     }
 
     if (issues.length > 0) {
-      console.error("\n[ FAIL ] System requirements not met:\n");
-      issues.forEach((i) => console.error("- " + i));
-      console.error("\n[ FAIL ] Application will be stopped.\n");
+      console.error('\n[ FAIL ] System requirements not met:\n');
+      issues.forEach((i) => console.error('- ' + i));
+      console.error('\n[ FAIL ] Application will be stopped.\n');
       process.exit(1);
     }
 

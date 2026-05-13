@@ -1,5 +1,5 @@
-const { exec } = require("child_process");
-const os = require("os");
+const { exec } = require('child_process');
+const os = require('os');
 
 function run(command) {
   return new Promise((resolve, reject) => {
@@ -18,13 +18,13 @@ async function getDrivers() {
 
   try {
     switch (platform) {
-      case "win32":
+      case 'win32':
         return await getWindowsDrivers();
 
-      case "linux":
+      case 'linux':
         return await getLinuxDrivers();
 
-      case "darwin":
+      case 'darwin':
         return await getMacDrivers();
 
       default:
@@ -42,7 +42,7 @@ async function getDrivers() {
 async function getWindowsDrivers() {
   const output = await run(`driverquery /FO CSV /V`);
 
-  const lines = output.split("\n").slice(1);
+  const lines = output.split('\n').slice(1);
 
   const drivers = lines.map((line) => {
     const cols = parseCSV(line);
@@ -61,16 +61,16 @@ async function getWindowsDrivers() {
 
   return {
     success: true,
-    platform: "windows",
+    platform: 'windows',
     count: drivers.length,
     drivers,
   };
 }
 
 async function getLinuxDrivers() {
-  const output = await run("lsmod");
+  const output = await run('lsmod');
 
-  const lines = output.split("\n").slice(1);
+  const lines = output.split('\n').slice(1);
 
   const drivers = lines.map((line) => {
     const parts = line.trim().split(/\s+/);
@@ -79,22 +79,22 @@ async function getLinuxDrivers() {
       moduleName: parts[0] || null,
       size: parts[1] || null,
       usedByCount: parts[2] || null,
-      usedBy: parts.slice(3).join(" ") || null,
+      usedBy: parts.slice(3).join(' ') || null,
     };
   });
 
   return {
     success: true,
-    platform: "linux",
+    platform: 'linux',
     count: drivers.length,
     drivers,
   };
 }
 
 async function getMacDrivers() {
-  const output = await run("kextstat");
+  const output = await run('kextstat');
 
-  const lines = output.split("\n").slice(1);
+  const lines = output.split('\n').slice(1);
 
   const drivers = [];
 
@@ -109,13 +109,13 @@ async function getMacDrivers() {
       address: parts[2],
       size: parts[3],
       wired: parts[4],
-      name: parts.slice(5).join(" "),
+      name: parts.slice(5).join(' '),
     });
   }
 
   return {
     success: true,
-    platform: "macos",
+    platform: 'macos',
     count: drivers.length,
     drivers,
   };
@@ -123,7 +123,7 @@ async function getMacDrivers() {
 
 function parseCSV(line) {
   const result = [];
-  let current = "";
+  let current = '';
   let insideQuotes = false;
 
   for (let i = 0; i < line.length; i++) {
@@ -134,9 +134,9 @@ function parseCSV(line) {
       continue;
     }
 
-    if (char === "," && !insideQuotes) {
+    if (char === ',' && !insideQuotes) {
       result.push(current);
-      current = "";
+      current = '';
       continue;
     }
 

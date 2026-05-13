@@ -1,5 +1,5 @@
-const { exec } = require("child_process");
-const os = require("os");
+const { exec } = require('child_process');
+const os = require('os');
 
 function run(command) {
   return new Promise((resolve, reject) => {
@@ -17,11 +17,11 @@ async function getStorage() {
 
   try {
     switch (platform) {
-      case "win32":
+      case 'win32':
         return await getWindowsStorage();
-      case "linux":
+      case 'linux':
         return await getLinuxStorage();
-      case "darwin":
+      case 'darwin':
         return await getMacStorage();
       default:
         throw new Error(`Unsupported platform: ${platform}`);
@@ -38,7 +38,7 @@ async function getWindowsStorage() {
 
   const partitionsRaw = await run(
     `powershell -NoProfile -NonInteractive -Command "Get-Partition | Where-Object {$_.DriveLetter} | Select-Object DiskNumber,DriveLetter | ForEach-Object { $dl = $_.DriveLetter; $dn = $_.DiskNumber; $drive = Get-PSDrive -Name $dl -PSProvider FileSystem -ErrorAction SilentlyContinue; if ($drive) { [PSCustomObject]@{DiskNumber=$dn; Used=$drive.Used; Free=$drive.Free} } } | ConvertTo-Json -Compress"`,
-  ).catch(() => "[]");
+  ).catch(() => '[]');
 
   const partitions = parseJSON(partitionsRaw, []);
 
@@ -82,11 +82,11 @@ async function getLinuxStorage() {
 
   const blockdevices = lsblkRaw ? JSON.parse(lsblkRaw).blockdevices || [] : [];
 
-  const physicalDisks = blockdevices.filter((d) => d.type === "disk");
+  const physicalDisks = blockdevices.filter((d) => d.type === 'disk');
 
   const dfRaw = await run(
     `df -B1 --output=source,used,avail 2>/dev/null`,
-  ).catch(() => "");
+  ).catch(() => '');
 
   const dfMap = parseDfOutput(dfRaw);
 
@@ -95,39 +95,39 @@ async function getLinuxStorage() {
       const name = dev.name;
 
       const hdparm = await run(`hdparm -I /dev/${name} 2>/dev/null`).catch(
-        () => "",
+        () => '',
       );
 
       const smartRaw = await run(
         `smartctl -j -i -H /dev/${name} 2>/dev/null`,
-      ).catch(() => "{}");
+      ).catch(() => '{}');
       const smart = parseJSON(smartRaw, {});
 
       const model =
         smart?.device?.model_name ||
-        extractHdparm(hdparm, "Model Number") ||
+        extractHdparm(hdparm, 'Model Number') ||
         dev.model ||
         (dev.vendor ? dev.vendor.trim() : null);
 
       const serial =
         smart?.serial_number ||
-        extractHdparm(hdparm, "Serial Number") ||
+        extractHdparm(hdparm, 'Serial Number') ||
         dev.serial ||
         null;
 
       const firmware =
         smart?.firmware_version ||
-        extractHdparm(hdparm, "Firmware Revision") ||
+        extractHdparm(hdparm, 'Firmware Revision') ||
         null;
 
       const wwn = smart?.wwn
         ? [
             smart.wwn.naa,
-            smart.wwn.oui?.toString(16).toUpperCase().padStart(6, "0"),
-            smart.wwn.id?.toString(16).toUpperCase().padStart(10, "0"),
+            smart.wwn.oui?.toString(16).toUpperCase().padStart(6, '0'),
+            smart.wwn.id?.toString(16).toUpperCase().padStart(10, '0'),
           ]
             .filter(Boolean)
-            .join("")
+            .join('')
         : null;
 
       const size = dev.size ? parseInt(dev.size) : null;
@@ -135,19 +135,19 @@ async function getLinuxStorage() {
       let mediaType = null;
       if (smart?.device?.type) {
         const t = smart.device.type.toLowerCase();
-        if (t.includes("nvme")) mediaType = "NVMe";
-        else if (t.includes("ssd") || dev.rota === "0") mediaType = "SSD";
-        else if (dev.rota === "1") mediaType = "HDD";
+        if (t.includes('nvme')) mediaType = 'NVMe';
+        else if (t.includes('ssd') || dev.rota === '0') mediaType = 'SSD';
+        else if (dev.rota === '1') mediaType = 'HDD';
       } else {
-        mediaType = dev.rota === "0" ? "SSD" : dev.rota === "1" ? "HDD" : null;
+        mediaType = dev.rota === '0' ? 'SSD' : dev.rota === '1' ? 'HDD' : null;
       }
 
       const busMap = {
-        sata: "SATA",
-        nvme: "NVMe",
-        usb: "USB",
-        sas: "SAS",
-        ata: "ATA",
+        sata: 'SATA',
+        nvme: 'NVMe',
+        usb: 'USB',
+        sas: 'SAS',
+        ata: 'ATA',
       };
       const busType = dev.tran
         ? busMap[dev.tran.toLowerCase()] || dev.tran.toUpperCase()
@@ -158,10 +158,10 @@ async function getLinuxStorage() {
       const smartHealth = smart?.smart_status;
 
       if (smartHealth) {
-        healthStatus = smartHealth.passed ? "Healthy" : "Unhealthy";
-        operationalStatus = smartHealth.passed ? "OK" : "Failed";
+        healthStatus = smartHealth.passed ? 'Healthy' : 'Unhealthy';
+        operationalStatus = smartHealth.passed ? 'OK' : 'Failed';
       } else if (dev.state) {
-        healthStatus = dev.state === "running" ? "Healthy" : "Warning";
+        healthStatus = dev.state === 'running' ? 'Healthy' : 'Warning';
         operationalStatus = dev.state;
       }
 
@@ -199,14 +199,14 @@ function parseDfOutput(raw) {
   const map = {};
   if (!raw) return map;
 
-  const lines = raw.trim().split("\n").slice(1);
+  const lines = raw.trim().split('\n').slice(1);
 
   for (const line of lines) {
     const parts = line.trim().split(/\s+/);
     if (parts.length < 3) continue;
 
     const [source, used, avail] = parts;
-    if (!source.startsWith("/dev/")) continue;
+    if (!source.startsWith('/dev/')) continue;
 
     map[source] = {
       used: parseInt(used) || 0,
@@ -221,7 +221,7 @@ function aggregateUsageForDisk(diskName, dfMap) {
   let free = null;
 
   for (const [device, stats] of Object.entries(dfMap)) {
-    const devBasename = device.replace("/dev/", "");
+    const devBasename = device.replace('/dev/', '');
     if (devBasename.startsWith(diskName)) {
       used = (used || 0) + stats.used;
       free = (free || 0) + stats.free;
@@ -236,7 +236,7 @@ async function getMacStorage() {
   const diskutilInfo = parseMacPlist(plistRaw);
   const wholeDisks = diskutilInfo.WholeDisks || [];
 
-  const dfRaw = await run(`df -k 2>/dev/null`).catch(() => "");
+  const dfRaw = await run(`df -k 2>/dev/null`).catch(() => '');
   const dfMap = parseMacDfOutput(dfRaw);
 
   const disks = await Promise.all(
@@ -266,7 +266,7 @@ async function getMacStorage() {
 
       const smartRaw = await run(
         `smartctl -j -i -H /dev/${identifier} 2>/dev/null`,
-      ).catch(() => "{}");
+      ).catch(() => '{}');
 
       const smart = parseJSON(smartRaw, {});
       const smartHealth = smart?.smart_status;
@@ -275,19 +275,19 @@ async function getMacStorage() {
 
       let mediaType = null;
       if (info.SolidState === true) {
-        mediaType = info.BusProtocol?.toLowerCase().includes("nvme")
-          ? "NVMe"
-          : "SSD";
+        mediaType = info.BusProtocol?.toLowerCase().includes('nvme')
+          ? 'NVMe'
+          : 'SSD';
       } else if (info.SolidState === false) {
-        mediaType = "HDD";
+        mediaType = 'HDD';
       }
 
       const busMap = {
-        SATA: "SATA",
-        NVMe: "NVMe",
-        USB: "USB",
-        SAS: "SAS",
-        Thunderbolt: "Thunderbolt",
+        SATA: 'SATA',
+        NVMe: 'NVMe',
+        USB: 'USB',
+        SAS: 'SAS',
+        Thunderbolt: 'Thunderbolt',
       };
 
       const busType = info.BusProtocol
@@ -298,13 +298,13 @@ async function getMacStorage() {
       let operationalStatus = null;
 
       if (smartHealth) {
-        healthStatus = smartHealth.passed ? "Healthy" : "Unhealthy";
-        operationalStatus = smartHealth.passed ? "OK" : "Failed";
+        healthStatus = smartHealth.passed ? 'Healthy' : 'Unhealthy';
+        operationalStatus = smartHealth.passed ? 'OK' : 'Failed';
       } else if (info.SMARTStatus) {
         healthStatus =
-          info.SMARTStatus === "Verified" ? "Healthy" : info.SMARTStatus;
+          info.SMARTStatus === 'Verified' ? 'Healthy' : info.SMARTStatus;
         operationalStatus =
-          info.SMARTStatus === "Verified" ? "OK" : info.SMARTStatus;
+          info.SMARTStatus === 'Verified' ? 'OK' : info.SMARTStatus;
       }
 
       const { used, free } = aggregateUsageForDisk(identifier, dfMap);
@@ -335,13 +335,13 @@ function parseMacDfOutput(raw) {
   const map = {};
   if (!raw) return map;
 
-  const lines = raw.trim().split("\n").slice(1);
+  const lines = raw.trim().split('\n').slice(1);
   for (const line of lines) {
     const parts = line.trim().split(/\s+/);
     if (parts.length < 6) continue;
 
     const [filesystem, , used, avail] = parts;
-    if (!filesystem.startsWith("/dev/")) continue;
+    if (!filesystem.startsWith('/dev/')) continue;
 
     map[filesystem] = {
       used: (parseInt(used) || 0) * 1024,
@@ -367,9 +367,9 @@ function parseMacPlist(xml) {
     const value = m[3];
     const bool = m[4];
 
-    if (bool !== undefined) result[key] = bool === "true";
-    else if (tag === "integer") result[key] = parseInt(value);
-    else if (tag === "real") result[key] = parseFloat(value);
+    if (bool !== undefined) result[key] = bool === 'true';
+    else if (tag === 'integer') result[key] = parseInt(value);
+    else if (tag === 'real') result[key] = parseFloat(value);
     else result[key] = value;
   }
 
@@ -377,7 +377,7 @@ function parseMacPlist(xml) {
     /<key>WholeDisks<\/key>\s*<array>([\s\S]*?)<\/array>/,
   );
   if (wholeMatch) {
-    result["WholeDisks"] = [
+    result['WholeDisks'] = [
       ...wholeMatch[1].matchAll(/<string>([^<]+)<\/string>/g),
     ].map((m) => m[1]);
   }
@@ -397,7 +397,7 @@ function parseJSON(raw, fallback) {
 function bytesToHuman(bytes) {
   if (bytes === null || bytes === undefined || isNaN(bytes)) return null;
 
-  const units = ["B", "KB", "MB", "GB", "TB", "PB"];
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
   let value = bytes;
   let unitIndex = 0;
 

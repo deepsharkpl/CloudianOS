@@ -1,5 +1,5 @@
 function clear() {
-  process.stdout.write("\x1Bc");
+  process.stdout.write('\x1Bc');
 }
 
 module.exports = clear;

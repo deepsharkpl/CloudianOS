@@ -1,71 +1,46 @@
-const { openSystemDB } = require("./db");
+const { openSystemDB } = require('./db');
+const crypto = require('crypto');
 
-async function hashPassword(password) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-
-  return Array.from(new Uint8Array(hashBuffer))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
+function hashPassword(password) {
+  return crypto.createHash('sha256').update(password).digest('hex');
 }
 
-async function login(username, password, deviceName = "Unknown Device") {
-  const db = await openSystemDB();
-  const tx = db.transaction(["users", "session"], "readwrite");
+function login(username, password, deviceName = 'Unknown Device') {
+  const db = openSystemDB();
+  const hashedPassword = hashPassword(password);
 
-  const usersStore = tx.objectStore("users");
-  const sessionStore = tx.objectStore("session");
-  const usernameIndex = usersStore.index("username");
+  const user = db
+    .prepare(`SELECT * FROM users WHERE username = ?`)
+    .get(username);
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      const request = usernameIndex.get(username);
+  if (!user) {
+    throw new Error('User not found');
+  }
 
-      request.onsuccess = async () => {
-        const user = request.result;
+  if (user.password !== hashedPassword) {
+    throw new Error('Invalid password');
+  }
 
-        if (!user) {
-          return reject(new Error("User not found"));
-        }
+  db.prepare(
+    `INSERT OR REPLACE INTO session (id, userId, username, deviceName, loginTime)
+     VALUES (?, ?, ?, ?, ?)`,
+  ).run(
+    'current',
+    user.id,
+    user.username,
+    deviceName,
+    new Date().toISOString(),
+  );
 
-        const hashedPassword = await hashPassword(password);
-
-        if (user.password !== hashedPassword) {
-          return reject(new Error("Invalid password"));
-        }
-
-        sessionStore.put({
-          id: "current",
-          userId: user.id,
-          username: user.username,
-          deviceName,
-          loginTime: new Date().toISOString(),
-        });
-
-        resolve({
-          success: true,
-          user: {
-            id: user.id,
-            username: user.username,
-            deviceName: user.deviceName,
-            createdAt: user.createdAt,
-          },
-        });
-      };
-
-      request.onerror = () => {
-        reject(request.error);
-      };
-
-      tx.onerror = () => {
-        reject(tx.error);
-      };
-    } catch (error) {
-      reject(error);
-    }
-  });
+  return {
+    success: true,
+    user: {
+      id: user.id,
+      username: user.username,
+      deviceName: user.deviceName,
+      createdAt: user.createdAt,
+    },
+  };
 }
 
 module.exports = {

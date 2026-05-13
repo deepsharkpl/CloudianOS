@@ -1,10 +1,10 @@
-const { blockIfInvalidVersions } = require("./utils/verifyVersion");
-const { verifyOS } = require("./utils/verifyOS");
-const config = require("../config");
-const chalk = require("chalk");
-const { getRAMInfo } = require("./utils/system/getRAMInfo");
-const { getDrivers } = require("./utils/system/getDrivers");
-const getStorage = require("./utils/system/getStorage");
+const { blockIfInvalidVersions } = require('./utils/verifyVersion');
+const { verifyOS } = require('./utils/verifyOS');
+const config = require('../config');
+const chalk = require('chalk');
+const { getRAMInfo } = require('./utils/system/getRAMInfo');
+const { getDrivers } = require('./utils/system/getDrivers');
+const getStorage = require('./utils/system/getStorage');
 const ram = getRAMInfo();
 
 function sleep(ms) {
@@ -14,10 +14,10 @@ function sleep(ms) {
 async function startApp() {
   try {
     await blockIfInvalidVersions();
-    console.log("[ " + chalk.green("OK") + " ] All system requirements met.");
+    console.log('[ ' + chalk.green('OK') + ' ] All system requirements met.');
   } catch (err) {
     console.error(
-      "[ " + chalk.red("FAIL") + " ] Failed to start application:",
+      '[ ' + chalk.red('FAIL') + ' ] Failed to start application:',
       err,
     );
     process.exit(1);
@@ -33,39 +33,39 @@ async function boot() {
   console.log(`Copyright (C) DeepShark ${new Date().getFullYear()}\n`);
 
   await sleep(600);
-  console.log("[ " + chalk.green("OK") + " ] Initializing system...");
+  console.log('[ ' + chalk.green('OK') + ' ] Initializing system...');
 
   await sleep(500);
-  console.log("[ " + chalk.green("OK") + " ] Detecting hardware...");
+  console.log('[ ' + chalk.green('OK') + ' ] Detecting hardware...');
 
   await sleep(500);
   console.log(
-    `[ ` + chalk.green("OK") + ` ] OS detected: ` + chalk.yellow(s.os),
+    `[ ` + chalk.green('OK') + ` ] OS detected: ` + chalk.yellow(s.os),
   );
   console.log(
-    `[ ` + chalk.green("OK") + ` ] Platform: ` + chalk.yellow(s.platform),
+    `[ ` + chalk.green('OK') + ` ] Platform: ` + chalk.yellow(s.platform),
   );
   console.log(
     `[ ` +
-      chalk.green("OK") +
+      chalk.green('OK') +
       ` ] Distribution: ` +
       chalk.yellow(s.distribution),
   );
   console.log(
-    `[ ` + chalk.green("OK") + ` ] OS Version: ` + chalk.yellow(s.osVersion),
+    `[ ` + chalk.green('OK') + ` ] OS Version: ` + chalk.yellow(s.osVersion),
   );
   console.log(
-    `[ ` + chalk.green("OK") + ` ] Build: ` + chalk.yellow(s.osBuild),
+    `[ ` + chalk.green('OK') + ` ] Build: ` + chalk.yellow(s.osBuild),
   );
 
   await sleep(600);
-  console.log("[ " + chalk.green("OK") + " ] Loading kernel info...");
+  console.log('[ ' + chalk.green('OK') + ' ] Loading kernel info...');
 
   await sleep(400);
   console.log(`       Kernel: ` + chalk.yellow(s.kernel));
 
   await sleep(500);
-  console.log("[ " + chalk.green("OK") + " ] Scanning CPU...");
+  console.log('[ ' + chalk.green('OK') + ' ] Scanning CPU...');
   console.log(
     `       CPU: ` +
       chalk.yellow(s.cpu.model) +
@@ -75,7 +75,7 @@ async function boot() {
   );
 
   await sleep(500);
-  console.log("[ " + chalk.green("OK") + " ] Detecting graphics subsystem...");
+  console.log('[ ' + chalk.green('OK') + ' ] Detecting graphics subsystem...');
   console.log(`       GPU: ` + chalk.yellow(s.graphicsEngine));
 
   if (s.gpuExtra) {
@@ -84,21 +84,21 @@ async function boot() {
   }
 
   await sleep(400);
-  console.log("[ " + chalk.green("OK") + " ] Checking virtual environment...");
+  console.log('[ ' + chalk.green('OK') + ' ] Checking virtual environment...');
 
   if (s.vm) {
     console.log(`       VM detected: ` + chalk.yellow(s.vm));
   } else {
-    console.log("       VM: " + chalk.yellow("none"));
+    console.log('       VM: ' + chalk.yellow('none'));
   }
 
   await sleep(400);
-  console.log("[ " + chalk.green("OK") + " ] Checking WSL layer...");
+  console.log('[ ' + chalk.green('OK') + ' ] Checking WSL layer...');
 
-  console.log(`       WSL: ` + chalk.yellow(s.wsl ? "yes" : "no"));
+  console.log(`       WSL: ` + chalk.yellow(s.wsl ? 'yes' : 'no'));
 
   await sleep(400);
-  console.log("[ " + chalk.green("OK") + " ] Checking power system...");
+  console.log('[ ' + chalk.green('OK') + ' ] Checking power system...');
 
   console.log(
     `       Battery: ` +
@@ -110,40 +110,40 @@ async function boot() {
 
   await sleep(500);
 
-  console.log("[ " + chalk.green("OK") + " ] Checking memory subsystem...");
+  console.log('[ ' + chalk.green('OK') + ' ] Checking memory subsystem...');
 
   await sleep(200);
-  console.log("       Total Memory: " + chalk.yellow(`${ram.totalGB} GB`));
+  console.log('       Total Memory: ' + chalk.yellow(`${ram.totalGB} GB`));
 
   await sleep(200);
-  console.log("       Used Memory: " + chalk.yellow(`${ram.usedGB} GB`));
+  console.log('       Used Memory: ' + chalk.yellow(`${ram.usedGB} GB`));
 
   await sleep(200);
-  console.log("       Free Memory: " + chalk.yellow(`${ram.freeGB} GB`));
+  console.log('       Free Memory: ' + chalk.yellow(`${ram.freeGB} GB`));
 
   await sleep(200);
-  console.log("       Memory Type: " + chalk.yellow(ram.type));
+  console.log('       Memory Type: ' + chalk.yellow(ram.type));
 
   await sleep(200);
-  console.log("       Memory Speed: " + chalk.yellow(ram.speedMHz));
+  console.log('       Memory Speed: ' + chalk.yellow(ram.speedMHz));
 
   await sleep(200);
-  console.log("       Manufacturer: " + chalk.yellow(ram.manufacturer));
+  console.log('       Manufacturer: ' + chalk.yellow(ram.manufacturer));
 
   await sleep(200);
   if (ram.slots && ram.slots.length > 0) {
     ram.slots.forEach((slot, index) => {
       console.log(
-        "       DIMM Slot " +
+        '       DIMM Slot ' +
           chalk.cyan(`#${index + 1}`) +
-          ": " +
+          ': ' +
           chalk.yellow(`${slot.sizeGB} GB ${slot.type}`),
       );
     });
   }
 
   await sleep(400);
-  console.log("[ " + chalk.green("OK") + " ] Scanning system drivers...");
+  console.log('[ ' + chalk.green('OK') + ' ] Scanning system drivers...');
 
   let drivers = [];
 
@@ -151,16 +151,16 @@ async function boot() {
     const result = await getDrivers();
 
     if (!result || !Array.isArray(result.drivers)) {
-      throw new Error(result?.error || "Invalid driver format");
+      throw new Error(result?.error || 'Invalid driver format');
     }
 
     drivers = result.drivers;
 
     await sleep(300);
     console.log(
-      "[ " +
-        chalk.green("OK") +
-        " ] Drivers loaded: " +
+      '[ ' +
+        chalk.green('OK') +
+        ' ] Drivers loaded: ' +
         chalk.yellow(drivers.length),
     );
 
@@ -169,26 +169,26 @@ async function boot() {
       await sleep(100);
 
       const d =
-        typeof driver === "string"
+        typeof driver === 'string'
           ? driver
           : driver.moduleName ||
             driver.name ||
             driver.displayName ||
-            "unknown driver";
+            'unknown driver';
 
-      console.log("[ " + chalk.green("DRV") + " ] " + chalk.yellow(d));
+      console.log('[ ' + chalk.green('DRV') + ' ] ' + chalk.yellow(d));
     }
   } catch (err) {
     console.log(
-      "[ " +
-        chalk.red("FAIL") +
-        " ] Driver scan failed: " +
+      '[ ' +
+        chalk.red('FAIL') +
+        ' ] Driver scan failed: ' +
         chalk.yellow(err.message || err),
     );
   }
 
   await sleep(400);
-  console.log("[ " + chalk.green("OK") + " ] Checking disc storage...");
+  console.log('[ ' + chalk.green('OK') + ' ] Checking disc storage...');
   const storage = await getStorage();
   try {
     const storage = await getStorage();
@@ -198,47 +198,47 @@ async function boot() {
         await sleep(200);
 
         console.log(
-          "       Disk " +
+          '       Disk ' +
             chalk.cyan(`#${index + 1}`) +
-            ": " +
+            ': ' +
             chalk.yellow(disk.friendlyName),
         );
 
         await sleep(100);
         console.log(
-          "         Type: " +
+          '         Type: ' +
             chalk.yellow(`${disk.mediaType} (${disk.busType})`),
         );
 
         await sleep(100);
-        console.log("         Capacity: " + chalk.yellow(disk.sizeHuman));
+        console.log('         Capacity: ' + chalk.yellow(disk.sizeHuman));
 
         await sleep(100);
-        console.log("         Used: " + chalk.yellow(disk.usedHuman));
+        console.log('         Used: ' + chalk.yellow(disk.usedHuman));
 
         await sleep(100);
-        console.log("         Free: " + chalk.yellow(disk.freeHuman));
+        console.log('         Free: ' + chalk.yellow(disk.freeHuman));
 
         await sleep(100);
-        console.log("         Health: " + chalk.yellow(disk.healthStatus));
+        console.log('         Health: ' + chalk.yellow(disk.healthStatus));
 
         await sleep(100);
-        console.log("         Status: " + chalk.yellow(disk.operationalStatus));
+        console.log('         Status: ' + chalk.yellow(disk.operationalStatus));
 
         await sleep(100);
-        console.log("         Firmware: " + chalk.yellow(disk.firmwareVersion));
+        console.log('         Firmware: ' + chalk.yellow(disk.firmwareVersion));
 
         await sleep(100);
-        console.log("         Serial: " + chalk.yellow(disk.serialNumber));
+        console.log('         Serial: ' + chalk.yellow(disk.serialNumber));
       }
     } else {
-      console.log("[ " + chalk.red("FAIL") + " ] No storage devices detected.");
+      console.log('[ ' + chalk.red('FAIL') + ' ] No storage devices detected.');
     }
   } catch (err) {
     console.log(
-      "[ " +
-        chalk.red("FAIL") +
-        " ] Storage scan failed: " +
+      '[ ' +
+        chalk.red('FAIL') +
+        ' ] Storage scan failed: ' +
         chalk.yellow(err.message || err),
     );
   }
@@ -247,13 +247,13 @@ async function boot() {
   startApp();
 
   await sleep(700);
-  console.log("[ " + chalk.green("OK") + " ] System check complete.");
+  console.log('[ ' + chalk.green('OK') + ' ] System check complete.');
 
   await sleep(400);
-  console.log("\nBooting Blueberry...\n");
+  console.log('\nBooting Blueberry...\n');
 
   await sleep(400);
-  require("./server");
+  require('./server');
 }
 
 boot();
