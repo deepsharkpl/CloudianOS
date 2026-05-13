@@ -66,7 +66,7 @@ function startServer(port) {
         '╔═════════════════════════════════════════════════════════════════╗',
       );
       console.log(centerBoxText(' ', width));
-      console.log(
+      (console.log(
         centerBoxText(
           chalk.green(
             `Blueberry OS v${config.version} has been successfully launched.`,
@@ -74,7 +74,7 @@ function startServer(port) {
           width,
         ),
       ),
-      console.log(centerBoxText(' ', width));
+        console.log(centerBoxText(' ', width)));
       console.log(
         centerBoxText(
           `Blueberry is now live at · ` +
@@ -120,7 +120,9 @@ function startServer(port) {
       if (err.code === 'EADDRINUSE') {
         console.error(
           chalk.red(
-            '[ ' + chalk.red('FAIL') + ` ]  Port ${port} is already in use. Trying next port...`,
+            '[ ' +
+              chalk.red('FAIL') +
+              ` ]  Port ${port} is already in use. Trying next port...`,
           ),
         );
 

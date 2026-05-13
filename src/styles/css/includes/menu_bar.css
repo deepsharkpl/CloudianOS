@@ -23,10 +23,12 @@
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.5s ease;
+  border: 1px solid transparent;
 }
 
 .menu_bar_center:hover {
-  background-color: #3e3e3e;
+  border: 1px solid #6161616d;
+  background-color: #3e3e3e5c;
   border-radius: 999px;
 }
 
@@ -34,10 +36,12 @@
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.5s ease;
+  border: 1px solid transparent;
 }
 
 .activity#activity:hover {
-  background-color: #3e3e3e;
+  border: 1px solid #6161616d;
+  background-color: #3e3e3e5c;
   border-radius: 999px;
 }
 
@@ -45,9 +49,11 @@
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.5s ease;
+  border: 1px solid transparent;
 }
 
 .menu_bar_right:hover {
-  background-color: #3e3e3e;
+  border: 1px solid #6161616d;
+  background-color: #3e3e3e5c;
   border-radius: 999px;
 }
