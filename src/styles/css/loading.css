@@ -54,16 +54,29 @@ body {
 }
 
 @keyframes load {
-  from { width: 0%; }
-  to { width: 100%; }
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blueberryFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @media (max-width: 768px) {
-  .blueberry-logo img { width: 70px; }
-  .loader { width: 180px; }
+  .blueberry-logo img {
+    width: 70px;
+  }
+  .loader {
+    width: 180px;
+  }
 }

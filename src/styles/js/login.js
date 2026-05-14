@@ -2,8 +2,15 @@ const clockEl = document.getElementById('clock');
 
 function updateClock() {
   const now = new Date();
-  const date = now.toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' });
-  const time = now.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+  const date = now.toLocaleDateString('pl-PL', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
+  const time = now.toLocaleTimeString('pl-PL', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
   clockEl.textContent = `${date}  ${time}`;
 }
 updateClock();
@@ -42,7 +49,7 @@ btnLogin.addEventListener('click', async () => {
   btnLogin.textContent = 'Logowanie...';
   errorEl.textContent = '';
 
-  const res = await fetch('/login', {
+  const res = await fetch('/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: getCurrentUsername(), password }),

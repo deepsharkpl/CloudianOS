@@ -29,3 +29,5 @@ docs/_build/
 .DS_Store
 Thumbs.db
 node_modules/
+
+src/database/Blueberry.db*
