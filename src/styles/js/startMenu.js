@@ -1,4 +1,4 @@
-class WebOS {
+class startMenu {
   constructor() {
     this.startMenu = document.getElementById('startMenu');
     this.menuButton = document.getElementById('menu');
@@ -30,5 +30,5 @@ class WebOS {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window._os = new WebOS();
+  window._os = new startMenu();
 });

@@ -9,12 +9,17 @@ html(lang="pl")
     link(rel="stylesheet" href="/styles/desktop.css")
     link(rel="stylesheet" href="/styles/includes/menu_bar.css")
     link(rel="stylesheet" href="/styles/includes/startMenu.css")
+    link(rel="stylesheet" href="/styles/includes/appsMenu.css")
     link(rel="stylesheet" href="/styles/includes/dock.css")
 
   body
     include includes/menu_bar 
 
-    .desktop
+    .desktop#desktop 
+      #selectionBox
 
+    include includes/appsMenu
     include includes/startMenu
     include includes/dock
+  
+  script(type="module" src="/js/desktop.js")
