@@ -1,0 +1,50 @@
+doctype html
+html(lang="pl")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Blueberry
+    link(rel="stylesheet" href="/styles/login.css")
+  body
+    .login-screen
+      .login-top
+        #clock
+
+      .login-center
+        .avatar
+          img(src="/img/logo.png" alt="" aria-hidden="true")
+        .user-info
+          if users.length === 1
+            p.username#login-username(data-username=users[0].username)= users[0].username
+            p.hostname Blueberry 
+          else
+            select#login-username.username-select
+              each user in users
+                option(value=user.username)= user.username
+            p.hostname Blueberry 
+            
+        .login-form
+          .password-wrap
+            input#input-password(type="password" placeholder="Hasło" autocomplete="current-password")
+            button#btn-show-pass(type="button" aria-label="Pokaż hasło")
+              svg(width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+                path(d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z")
+                circle(cx="12" cy="12" r="3")
+          p.error-msg#login-error
+          button#btn-login.btn-primary Zaloguj się
+
+      .login-bottom
+        button#btn-shutdown(type="button")
+          svg(width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+            path(d="M18.36 6.64A9 9 0 0 1 20.77 15")
+            path(d="M6.16 6.16a9 9 0 1 0 12.68 12.68")
+            path(d="M12 2v4")
+            path(d="m2 2 20 20")
+          span Wyłącz
+        button#btn-reboot(type="button")
+          svg(width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
+            path(d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8")
+            path(d="M3 3v5h5")
+          span Uruchom ponownie
+
+    script(src="/js/login.js")

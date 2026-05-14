@@ -1,0 +1,31 @@
+doctype html
+html(lang="pl")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Blueberry
+    link(rel="stylesheet" href="/styles/loading.css")
+  body
+    .splash-screen
+      .blueberry-logo
+        img(src="/img/logo.png" alt="Blueberry")
+      .loader
+        .progress-bar
+          .progress
+
+    script.
+      const CONTENT_URL = '!{contentUrl}';
+      const DESTINATION = '!{destination}';
+
+      setTimeout(() => {
+        const splash = document.querySelector('.splash-screen');
+        splash.classList.add('hide');
+        setTimeout(async () => {
+          const res = await fetch(CONTENT_URL);
+          const html = await res.text();
+          document.open();
+          document.write(html);
+          document.close();
+          history.replaceState(null, '', DESTINATION);
+        }, 1200);
+      }, 6000);

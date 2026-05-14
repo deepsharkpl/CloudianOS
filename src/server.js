@@ -33,16 +33,10 @@ app.use('/styles', express.static(path.join(__dirname, 'styles', 'css')));
 app.use('/img', express.static(path.join(__dirname, 'styles', 'img')));
 app.use('/js', express.static(path.join(__dirname, 'styles', 'js')));
 
-app.get('/', (req, res) => {
-  res.render('welcome_screen');
-});
+app.use('/', require('./routes/system'));
 
-app.get('/test', (req, res) => {
-  res.render('desktop');
-});
-
-app.use('/api/configuration', require('./routes/api.configuration'));
 app.use('/api/system', require('./routes/api.system'));
+app.use('/api/configuration', require('./routes/api.configuration'));
 
 function getLocalIP() {
   const interfaces = os.networkInterfaces();

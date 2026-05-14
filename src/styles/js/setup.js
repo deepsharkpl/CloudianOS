@@ -14,22 +14,15 @@ const welcomes = [
   'Olá',
 ];
 
-const splash = document.querySelector('.splash-screen');
 const setupScreen = document.querySelector('.setup-screen');
 const welcomeText = document.getElementById('welcome-text');
 
 let currentWord = 0;
 let typingTimer = null;
 
-setTimeout(() => {
-  splash.classList.add('hide');
-  setTimeout(() => {
-    splash.style.display = 'none';
-    setupScreen.classList.add('show');
-    typeWelcome();
-    typingTimer = setInterval(typeWelcome, 3500);
-  }, 1200);
-}, 6000);
+setupScreen.classList.add('show');
+typeWelcome();
+typingTimer = setInterval(typeWelcome, 3500);
 
 function typeWelcome() {
   const word = welcomes[currentWord];
