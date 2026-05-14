@@ -10,6 +10,7 @@ Every application must follow the same architecture to keep the system modular, 
 
 Each application should use the following structure:
 
+```txt
 /app-name
 │
 ├── /icon
@@ -27,11 +28,13 @@ Each application should use the following structure:
 │       - permissions
 │
 └── metadata.json
+```
 
 ---
 
 # Example
 
+```txt
 /apps
 └── /notes
     ├── /icon
@@ -46,6 +49,7 @@ Each application should use the following structure:
     │   └── README.md
     │
     └── metadata.json
+```
 
 ---
 
@@ -97,6 +101,7 @@ Contains application metadata.
 
 Example:
 
+```txt
 {
   "name": "Notes",
   "version": "1.0.0",
@@ -107,6 +112,7 @@ Example:
     "filesystem.write"
   ]
 }
+```
 
 ---
 
