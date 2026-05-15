@@ -23,7 +23,7 @@ function detectOS() {
     case 'linux':
       return 'Linux';
     default:
-      return 'Unknown';
+      return 'Unsupported';
   }
 }
 
