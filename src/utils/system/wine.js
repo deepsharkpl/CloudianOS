@@ -1,5 +1,9 @@
 const fs = require('fs');
+const util = require('util');
+const { execFile } = require('child_process');
 const { detectOS } = require('../verifyOS');
+
+const execFileAsync = util.promisify(execFile);
 
 const os = detectOS()
 
@@ -37,6 +41,39 @@ function detectWine() {
   };
 }
 
+async function getWineVersions() {
+  const wine = detectWine();
+
+  if (!wine.installed) {
+    return [];
+  }
+
+  const versions = await Promise.all(
+    wine.paths.map(async (path) => {
+      try {
+        const { stdout } = await execFileAsync(
+          path,
+          ['--version'],
+        );
+
+        return {
+          path,
+          version: stdout.trim(),
+        };
+      } catch (error) {
+        return {
+          path,
+          version: 'unknown',
+          error: error.message,
+        };
+      }
+    }),
+  );
+
+  return versions;
+}
+
 module.exports = {
   detectWine,
+  getWineVersions
 };
