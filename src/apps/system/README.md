@@ -15,11 +15,13 @@ Example:
 /users/my_application
 
 The `/system` folder should contain only:
+
 - system applications,
 - system libraries,
 - files required by the operating system.
 
 Violating this rule may lead to:
+
 - system conflicts,
 - update issues,
 - permission errors,

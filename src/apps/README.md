@@ -60,6 +60,7 @@ Each application should use the following structure:
 Contains all application icons and visual assets.
 
 Recommended:
+
 - PNG
 - SVG
 - 256x256 resolution
@@ -69,6 +70,7 @@ Recommended:
 ## /src
 
 Contains:
+
 - application logic
 - API communication
 - runtime code
@@ -85,6 +87,7 @@ This is the core of the application.
 Contains documentation for developers.
 
 Every application should explain:
+
 - what it does
 - how it works internally
 - how to extend it
@@ -121,6 +124,7 @@ Example:
 Before creating a new application, it is highly recommended to study existing applications inside the system.
 
 Existing applications show:
+
 - architecture standards
 - coding style
 - API usage
@@ -136,6 +140,7 @@ Understanding existing applications first will make creating new applications mu
 # Development Philosophy
 
 Applications inside Blueberry OS should be:
+
 - modular
 - isolated
 - scalable
@@ -163,6 +168,7 @@ Applications should behave like native operating system applications, not tradit
 # Future Goals
 
 The application system will eventually support:
+
 - application sandboxing
 - process isolation
 - permissions system
