@@ -4,7 +4,7 @@ const { detectOS } = require('../verifyOS');
 
 const execAsync = util.promisify(exec);
 
-const os = detectOS()
+const os = detectOS();
 
 function isPidRunning(pid) {
   try {
@@ -18,9 +18,7 @@ function isPidRunning(pid) {
 async function getChildPids(pid) {
   try {
     if (os === 'macOS') {
-      const { stdout } = await execAsync(
-        `pgrep -P ${pid} 2>/dev/null`,
-      );
+      const { stdout } = await execAsync(`pgrep -P ${pid} 2>/dev/null`);
 
       return stdout
         .trim()
@@ -45,9 +43,7 @@ async function getChildPids(pid) {
 
 async function getWineProcessPids() {
   try {
-    const { stdout } = await execAsync(
-      'pgrep -f wine 2>/dev/null',
-    );
+    const { stdout } = await execAsync('pgrep -f wine 2>/dev/null');
 
     return stdout
       .trim()

@@ -5,15 +5,11 @@ const { detectOS } = require('../verifyOS');
 
 const execFileAsync = util.promisify(execFile);
 
-const os = detectOS()
+const os = detectOS();
 
-const {
-  WINE_SEARCH_PATHS_DARWIN,
-} = require('../platforms/darwin');
+const { WINE_SEARCH_PATHS_DARWIN } = require('../platforms/darwin');
 
-const {
-  WINE_SEARCH_PATHS_LINUX,
-} = require('../platforms/linux');
+const { WINE_SEARCH_PATHS_LINUX } = require('../platforms/linux');
 
 function getWinePaths() {
   if (os === 'macOS') {
@@ -30,9 +26,7 @@ function getWinePaths() {
 function detectWine() {
   const paths = getWinePaths();
 
-  const existingPaths = paths.filter((path) =>
-    fs.existsSync(path),
-  );
+  const existingPaths = paths.filter((path) => fs.existsSync(path));
 
   return {
     installed: existingPaths.length > 0,
@@ -51,10 +45,7 @@ async function getWineVersions() {
   const versions = await Promise.all(
     wine.paths.map(async (path) => {
       try {
-        const { stdout } = await execFileAsync(
-          path,
-          ['--version'],
-        );
+        const { stdout } = await execFileAsync(path, ['--version']);
 
         return {
           path,
@@ -75,5 +66,5 @@ async function getWineVersions() {
 
 module.exports = {
   detectWine,
-  getWineVersions
+  getWineVersions,
 };
