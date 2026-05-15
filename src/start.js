@@ -9,11 +9,16 @@ const centerBoxText = require('./utils/text/centerBoxText');
 const boxText = require('./utils/text/boxText');
 const { detectOS } = require('./utils/verifyOS');
 
-const availableOS = detectOS()
+const availableOS = detectOS();
 
 async function verifySystem() {
-  if (availableOS === "Unsupported") {
-    console.error('[ ' + chalk.red('FAIL') + ' ] ' +`Unsupported platform: ${process.platform}. Requires macOS, Linux, or Windows.`);
+  if (availableOS === 'Unsupported') {
+    console.error(
+      '[ ' +
+        chalk.red('FAIL') +
+        ' ] ' +
+        `Unsupported platform: ${process.platform}. Requires macOS, Linux, or Windows.`,
+    );
     process.exit(0);
   } else {
     startGRUB();
