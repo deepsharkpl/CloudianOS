@@ -1,20 +1,12 @@
-const {
-  getEnv,
-  getEnvNumber,
-} = require('./env');
+const { getEnv, getEnvNumber } = require('./env');
 
-const {
-  expandHome,
-} = require('./expand-home');
+const { expandHome } = require('./expand-home');
 
 let config = null;
 
 function loadConfig() {
   const defaultPrefixPath = expandHome(
-    getEnv(
-      'DEFAULT_PREFIX_PATH',
-      '~/.blueberry/prefixes',
-    ),
+    getEnv('DEFAULT_PREFIX_PATH', '~/.blueberry/prefixes'),
   );
 
   return {
@@ -22,10 +14,7 @@ function loadConfig() {
     wine: {
       binary: getEnv('WINE_BINARY', 'wine'),
       binary64: getEnv('WINE64_BINARY', 'wine64'),
-      wineserver: getEnv(
-        'WINESERVER_BINARY',
-        'wineserver',
-      ),
+      wineserver: getEnv('WINESERVER_BINARY', 'wineserver'),
       defaultPrefixPath,
       debug: getEnv('WINE_DEBUG', '-all'),
     },
@@ -38,14 +27,8 @@ function loadConfig() {
     },
 
     process: {
-      checkInterval: getEnvNumber(
-        'PROCESS_CHECK_INTERVAL',
-        5000,
-      ),
-      zombieCleanupInterval: getEnvNumber(
-        'ZOMBIE_CLEANUP_INTERVAL',
-        30000,
-      ),
+      checkInterval: getEnvNumber('PROCESS_CHECK_INTERVAL', 5000),
+      zombieCleanupInterval: getEnvNumber('ZOMBIE_CLEANUP_INTERVAL', 30000),
       maxProcesses: getEnvNumber('MAX_PROCESSES', 50),
     },
 
