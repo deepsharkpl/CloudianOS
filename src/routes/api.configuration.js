@@ -1,5 +1,4 @@
 const { createAccount } = require('../database/createAccount');
-const { openSystemDB } = require('../database/db');
 
 const express = require('express');
 const router = express.Router();

@@ -1,5 +1,4 @@
 const { blockIfInvalidVersions } = require('./utils/verifyVersion');
-const config = require('../config');
 const chalk = require('chalk');
 
 function sleep(ms) {

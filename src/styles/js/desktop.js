@@ -38,13 +38,6 @@ window.addEventListener('mousemove', (e) => {
   selectionBox.style.top = y + 'px';
   selectionBox.style.width = width + 'px';
   selectionBox.style.height = height + 'px';
-
-  const selectionRect = {
-    left: x,
-    top: y,
-    right: x + width,
-    bottom: y + height,
-  };
 });
 
 window.addEventListener('mouseup', () => {

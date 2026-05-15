@@ -44,7 +44,7 @@ function fetchBlueberryVersion() {
           try {
             const json = JSON.parse(data);
             resolve(json.version);
-          } catch (err) {
+          } catch {
             reject('[ FAIL ] Failed to parse Blueberry package.json');
           }
         });

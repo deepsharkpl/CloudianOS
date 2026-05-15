@@ -9,7 +9,7 @@ const packageJson = JSON.parse(
 function getNpmVersion() {
   try {
     return execSync('npm -v').toString().trim();
-  } catch (err) {
+  } catch {
     return 'unknown';
   }
 }

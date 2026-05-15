@@ -30,7 +30,7 @@ function getSystemLanguage() {
 
       if (match?.[1]) return normalize(match[1]);
     }
-  } catch (err) {}
+  } catch {}
 
   const intl = Intl.DateTimeFormat().resolvedOptions().locale;
   if (intl) return normalize(intl);

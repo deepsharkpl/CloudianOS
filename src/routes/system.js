@@ -104,12 +104,4 @@ function isLoggedIn() {
   return loggedInUserId !== null;
 }
 
-function setLoggedIn(userId) {
-  loggedInUserId = userId;
-}
-
-function setLoggedOut() {
-  loggedInUserId = null;
-}
-
 module.exports = router;

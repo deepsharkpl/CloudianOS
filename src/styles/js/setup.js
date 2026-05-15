@@ -49,7 +49,6 @@ function eraseText() {
   }, 70);
 }
 
-const panels = document.querySelectorAll('.step-panel');
 const sideSteps = document.querySelectorAll('.step');
 let currentStep = 1;
 

@@ -17,7 +17,7 @@ function loadLocale(lang) {
 
     cache[safeLang] = parsed;
     return parsed;
-  } catch (err) {
+  } catch {
     if (safeLang !== 'en') {
       return loadLocale('en');
     }
