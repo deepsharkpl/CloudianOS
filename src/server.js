@@ -21,6 +21,8 @@ const width = line.length;
 const app = express();
 const PORT = process.env.HTTP_PORT || 3000;
 
+const gamingRouter = require('./apps/gaming/gamingRouter');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'UI'));
 
@@ -34,6 +36,8 @@ app.use('/img', express.static(path.join(__dirname, 'styles', 'img')));
 app.use('/js', express.static(path.join(__dirname, 'styles', 'js')));
 
 app.use('/', require('./routes/system'));
+
+app.use('/api/gaming', gamingRouter);
 
 app.use('/api/system', require('./routes/api.system'));
 app.use('/api/configuration', require('./routes/api.configuration'));
