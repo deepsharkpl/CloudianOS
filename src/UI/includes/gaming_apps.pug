@@ -1,0 +1,143 @@
+section#gaming-widget(aria-label="Gaming Apps")
+  .gaming-header
+    span.gaming-title Gaming Apps
+    button.gaming-close(aria-label="Zamknij" onclick="document.getElementById('gaming-widget').remove()") ×
+
+  .gaming-list
+    if apps && apps.length
+      each app in apps
+        .gaming-item(
+          title=app.setupFound ? app.setupPath : 'Instalator nie znaleziony'
+          class=app.setupFound ? '' : 'unavailable'
+        )
+          img.gaming-icon(
+            src=app.icon
+            alt=app.name + ' icon'
+            onerror="this.style.display='none'"
+          )
+          span.gaming-name= app.name
+          if app.setupFound
+            a.gaming-action(
+              href=`/api/gaming/${app.slug}/launch`
+              title=app.setupPath
+            ) Uruchom
+          else
+            span.gaming-missing Nie znaleziono
+
+    else
+      p.gaming-empty Brak aplikacji w folderze gaming/.
+
+style.
+  #gaming-widget {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 200px;
+    background: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  .gaming-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #16213e;
+    border-bottom: 1px solid #2a2a4a;
+    flex-shrink: 0;
+  }
+
+  .gaming-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #a0a8c0;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .gaming-close {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 2px;
+    transition: color 0.15s;
+  }
+
+  .gaming-close:hover { color: #fff; }
+
+  .gaming-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 6px 0;
+  }
+
+  .gaming-list::-webkit-scrollbar { width: 4px; }
+  .gaming-list::-webkit-scrollbar-track { background: transparent; }
+  .gaming-list::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 2px; }
+
+  .gaming-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px;
+    cursor: default;
+    transition: background 0.1s;
+  }
+
+  .gaming-item:hover { background: rgba(255,255,255,0.04); }
+  .gaming-item.unavailable { opacity: 0.45; }
+
+  .gaming-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 4px;
+  }
+
+  .gaming-name {
+    flex: 1;
+    font-size: 13px;
+    color: #d0d8f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .gaming-action {
+    font-size: 11px;
+    color: #5c9eff;
+    text-decoration: none;
+    padding: 2px 8px;
+    border: 1px solid #2a4a80;
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: background 0.1s;
+  }
+
+  .gaming-action:hover { background: rgba(92,158,255,0.1); }
+
+  .gaming-missing {
+    font-size: 11px;
+    color: #664;
+  }
+
+  .gaming-empty {
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+  }

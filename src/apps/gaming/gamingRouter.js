@@ -18,6 +18,18 @@ router.get('/', (req, res) => {
   res.json({ count: apps.length, apps });
 });
 
+router.get('/widget/gaming', (req, res) => {
+  const apps = loadAllApps().map(a => ({
+    slug:       a.slug,
+    name:       a.name,
+    icon:       `/api/gaming/${a.slug}/icon`,
+    setupFound: a.setupFound,
+    setupPath:  a.setupPath,
+  }));
+  res.render('includes/gaming_apps', { apps });
+});
+
+
 router.get('/:slug', (req, res) => {
   const app = loadApp(req.params.slug);
   if (!app)

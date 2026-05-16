@@ -17,9 +17,16 @@ html(lang="pl")
 
     .desktop#desktop 
       #selectionBox
+      #gaming-mount
 
     include includes/appsMenu
     include includes/startMenu
     include includes/dock
   
   script(type="module" src="/js/desktop.js")
+  script.
+    fetch('/api/gaming/widget/gaming')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('gaming-mount').innerHTML = html;
+      });
