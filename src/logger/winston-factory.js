@@ -13,13 +13,11 @@ const logFormat = printf(({ level, message, timestamp, service, ...meta }) => {
     .padEnd(5)}] [${service ?? 'core'}] ${message}${metaStr}`;
 });
 
-const consoleFormat = printf(
-  ({ level, message, timestamp, service, ...meta }) => {
-    const metaStr = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : '';
+const consoleFormat = printf(({ message, timestamp, service, ...meta }) => {
+  const metaStr = Object.keys(meta).length ? ` ${JSON.stringify(meta)}` : '';
 
-    return `[${timestamp}] [${service ?? 'core'}] ${message}${metaStr}`;
-  },
-);
+  return `[${timestamp}] [${service ?? 'core'}] ${message}${metaStr}`;
+});
 
 function createLogger(service) {
   const config = getConfig();

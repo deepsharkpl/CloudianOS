@@ -8,15 +8,25 @@ function parseSystemProfiler(output) {
     const line = rawLine.trim();
     const indent = rawLine.search(/\S/);
 
-    if (line.includes('Wi-Fi Networks') || line.includes('Other Local Wi-Fi Networks')) {
+    if (
+      line.includes('Wi-Fi Networks') ||
+      line.includes('Other Local Wi-Fi Networks')
+    ) {
       inNetworksSection = true;
       continue;
     }
 
     if (!inNetworksSection) continue;
 
-    const knownKeys = ['Security', 'Channel', 'Network Name', 'BSS', 'Country', 'PHY'];
-    const isKnownKey = knownKeys.some(k => line.startsWith(k + ':'));
+    const knownKeys = [
+      'Security',
+      'Channel',
+      'Network Name',
+      'BSS',
+      'Country',
+      'PHY',
+    ];
+    const isKnownKey = knownKeys.some((k) => line.startsWith(k + ':'));
 
     if (indent === 12 && line.endsWith(':') && !isKnownKey) {
       if (current) networks.push(current);
