@@ -1,6 +1,9 @@
 const { createAccount } = require('../database/createAccount');
 
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
+
 const router = express.Router();
 
 let setupSession = {};
@@ -103,6 +106,24 @@ router.post('/finish', async (req, res) => {
     };
 
     await createAccount(accountData);
+
+    const base = process.cwd();
+    const dirs = [
+      `users/${username}/system/bin`,
+      `users/${username}/system/etc`,
+      `users/${username}/system/dev`,
+      `users/${username}/system/proc`,
+      `users/${username}/system/media`,
+      `users/${username}/system/updates`,
+      `users/${username}/home/${username}/bin`,
+      `users/${username}/home/${username}`,
+      `users/${username}/tmp`,
+      `users/${username}/recovery`,
+    ];
+
+    for (const dir of dirs) {
+      fs.mkdirSync(path.join(base, dir), { recursive: true });
+    }
 
     setupSession = {};
 
